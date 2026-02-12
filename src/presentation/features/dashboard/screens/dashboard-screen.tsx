@@ -11,7 +11,7 @@ import { useDashboard } from '../hooks/use-dashboard';
 export function DashboardScreen() {
   useKeepAwake();
 
-  const { products, loading, error, hasActiveProducts } = useDashboard();
+  const { products, loading, error, hasActiveProducts, allFinished } = useDashboard();
 
   if (loading) {
     return (
@@ -37,7 +37,11 @@ export function DashboardScreen() {
   return (
     <View className="flex-1 bg-background">
       <DashboardHeader />
-      {hasActiveProducts ? <DashboardLayout products={products} /> : <EmptyDashboard />}
+      {hasActiveProducts ? (
+        <DashboardLayout products={products} />
+      ) : (
+        <EmptyDashboard allFinished={allFinished} />
+      )}
     </View>
   );
 }

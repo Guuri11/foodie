@@ -3,7 +3,7 @@ import { Pressable, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 
-import type { Product } from '@domain/product/model';
+import { type Product, sortByUrgency } from '@domain/product/model';
 
 import { Badge } from '~/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/card';
@@ -31,7 +31,7 @@ function statusToBadgeVariant(status: Product['status']) {
 export function PantryPanel({ products }: PantryPanelProps) {
   const router = useRouter();
   const { t } = useTranslation();
-  const visibleProducts = products.slice(0, MAX_VISIBLE_PRODUCTS);
+  const visibleProducts = sortByUrgency(products).slice(0, MAX_VISIBLE_PRODUCTS);
 
   return (
     <Card className="flex-1">

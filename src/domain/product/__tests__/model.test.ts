@@ -1,5 +1,5 @@
 import { ProductError } from '../errors';
-import { createProduct, isActive, isExpired, isExpiringSoon } from '../model';
+import { createProduct, isActive, isExpired, isExpiringSoon, sortByUrgency } from '../model';
 
 describe('Product Model', () => {
   describe('Creating a product', () => {
@@ -184,6 +184,100 @@ describe('Product Model', () => {
     it('should_not_be_active_when_status_is_finished', () => {
       const product = createProduct({ id: '1', name: 'Milk', status: 'finished' });
       expect(isActive(product)).toBe(false);
+    });
+  });
+
+  describe('Urgency sorting', () => {
+    it('should_sort_expired_products_first', () => {
+      const yesterday = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+      const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+      const fresh = createProduct({ id: '1', name: 'Rice', status: 'new', expiryDate: nextWeek });
+      const expired = createProduct({
+        id: '2',
+        name: 'Yogurt',
+        status: 'opened',
+        expiryDate: yesterday,
+      });
+
+      const sorted = sortByUrgency([fresh, expired]);
+
+      expect(sorted[0].name).toBe('Yogurt');
+      expect(sorted[1].name).toBe('Rice');
+    });
+
+    it('should_sort_expiring_soon_before_almost_empty', () => {
+      const tomorrow = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+
+      const almostEmpty = createProduct({ id: '1', name: 'Oil', status: 'almost_empty' });
+      const expiringSoon = createProduct({
+        id: '2',
+        name: 'Milk',
+        status: 'opened',
+        expiryDate: tomorrow,
+      });
+
+      const sorted = sortByUrgency([almostEmpty, expiringSoon]);
+
+      expect(sorted[0].name).toBe('Milk');
+      expect(sorted[1].name).toBe('Oil');
+    });
+
+    it('should_sort_almost_empty_before_opened', () => {
+      const almostEmpty = createProduct({ id: '1', name: 'Oil', status: 'almost_empty' });
+      const opened = createProduct({ id: '2', name: 'Rice', status: 'opened' });
+
+      const sorted = sortByUrgency([opened, almostEmpty]);
+
+      expect(sorted[0].name).toBe('Oil');
+      expect(sorted[1].name).toBe('Rice');
+    });
+
+    it('should_sort_opened_before_new', () => {
+      const newProduct = createProduct({ id: '1', name: 'Pasta', status: 'new' });
+      const opened = createProduct({ id: '2', name: 'Rice', status: 'opened' });
+
+      const sorted = sortByUrgency([newProduct, opened]);
+
+      expect(sorted[0].name).toBe('Rice');
+      expect(sorted[1].name).toBe('Pasta');
+    });
+
+    it('should_sort_full_urgency_order_correctly', () => {
+      const yesterday = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+      const tomorrow = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+
+      const newProduct = createProduct({ id: '1', name: 'Pasta', status: 'new' });
+      const opened = createProduct({ id: '2', name: 'Rice', status: 'opened' });
+      const almostEmpty = createProduct({ id: '3', name: 'Oil', status: 'almost_empty' });
+      const expiringSoon = createProduct({
+        id: '4',
+        name: 'Milk',
+        status: 'opened',
+        expiryDate: tomorrow,
+      });
+      const expired = createProduct({
+        id: '5',
+        name: 'Yogurt',
+        status: 'opened',
+        expiryDate: yesterday,
+      });
+
+      const sorted = sortByUrgency([newProduct, opened, almostEmpty, expiringSoon, expired]);
+
+      expect(sorted.map((p) => p.name)).toEqual(['Yogurt', 'Milk', 'Oil', 'Rice', 'Pasta']);
+    });
+
+    it('should_not_mutate_original_array', () => {
+      const products = [
+        createProduct({ id: '1', name: 'Pasta', status: 'new' }),
+        createProduct({ id: '2', name: 'Oil', status: 'almost_empty' }),
+      ];
+
+      const sorted = sortByUrgency(products);
+
+      expect(products[0].name).toBe('Pasta');
+      expect(sorted[0].name).toBe('Oil');
     });
   });
 });

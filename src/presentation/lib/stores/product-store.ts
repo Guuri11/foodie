@@ -6,6 +6,7 @@ import type { GetAllProductsUseCase } from '@domain/product/use-cases/get-all-pr
 
 interface ProductState {
   products: Product[];
+  totalCount: number;
   loading: boolean;
   error: Error | null;
 }
@@ -13,7 +14,6 @@ interface ProductState {
 interface ProductActions {
   loadProducts: () => Promise<void>;
   addProduct: (name: string) => Promise<void>;
-  hasActiveProducts: () => boolean;
   initialize: (useCases: {
     getAllProducts: GetAllProductsUseCase;
     addProduct: AddProductUseCase;
@@ -27,6 +27,7 @@ let _addProduct: AddProductUseCase | null = null;
 
 export const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
+  totalCount: 0,
   loading: false,
   error: null,
 
@@ -39,8 +40,8 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     if (!_getAllProducts) return;
     set({ loading: true, error: null });
     try {
-      const products = await _getAllProducts.execute();
-      set({ products, loading: false });
+      const { active, totalCount } = await _getAllProducts.execute();
+      set({ products: active, totalCount, loading: false });
     } catch (e) {
       set({ error: e instanceof Error ? e : new Error('Unknown error'), loading: false });
     }
@@ -56,9 +57,5 @@ export const useProductStore = create<ProductStore>((set, get) => ({
       set({ error: e instanceof Error ? e : new Error('Unknown error') });
       throw e;
     }
-  },
-
-  hasActiveProducts: () => {
-    return get().products.length > 0;
   },
 }));

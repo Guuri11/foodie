@@ -65,3 +65,21 @@ export function isExpired(product: Product): boolean {
 export function isActive(product: Product): boolean {
   return product.status !== 'finished';
 }
+
+/**
+ * Returns a numeric urgency score (lower = more urgent).
+ * Used to sort products in the pantry panel.
+ *
+ * Priority: expired (0) → expiring soon (1) → almost_empty (2) → opened (3) → new (4)
+ */
+export function urgencyScore(product: Product): number {
+  if (isExpired(product)) return 0;
+  if (isExpiringSoon(product)) return 1;
+  if (product.status === 'almost_empty') return 2;
+  if (product.status === 'opened') return 3;
+  return 4;
+}
+
+export function sortByUrgency(products: Product[]): Product[] {
+  return [...products].sort((a, b) => urgencyScore(a) - urgencyScore(b));
+}

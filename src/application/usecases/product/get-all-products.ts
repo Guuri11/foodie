@@ -1,7 +1,9 @@
 import type { Logger } from '@domain/logger';
-import type { Product } from '@domain/product/model';
 import type { ProductRepository } from '@domain/product/repository';
-import type { GetAllProductsUseCase } from '@domain/product/use-cases/get-all-products';
+import type {
+  GetAllProductsResult,
+  GetAllProductsUseCase,
+} from '@domain/product/use-cases/get-all-products';
 
 export class GetAllProductsUseCaseImpl implements GetAllProductsUseCase {
   constructor(
@@ -9,8 +11,12 @@ export class GetAllProductsUseCaseImpl implements GetAllProductsUseCase {
     private readonly logger: Logger
   ) {}
 
-  async execute(): Promise<Product[]> {
+  async execute(): Promise<GetAllProductsResult> {
     this.logger.info('Getting all active products');
-    return this.repository.getActiveProducts();
+    const [active, all] = await Promise.all([
+      this.repository.getActiveProducts(),
+      this.repository.getAll(),
+    ]);
+    return { active, totalCount: all.length };
   }
 }

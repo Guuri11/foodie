@@ -55,41 +55,72 @@ describe('GetAllProductsUseCase', () => {
   it('should_return_all_active_products_when_products_exist', async () => {
     // Given active products exist
     mockRepository.getActiveProducts.mockResolvedValue([activeProduct, anotherActiveProduct]);
+    mockRepository.getAll.mockResolvedValue([activeProduct, anotherActiveProduct]);
 
     // When we get all products
     const result = await useCase.execute();
 
     // Then all active products are returned
-    expect(result).toEqual([activeProduct, anotherActiveProduct]);
-    expect(result).toHaveLength(2);
+    expect(result.active).toEqual([activeProduct, anotherActiveProduct]);
+    expect(result.active).toHaveLength(2);
   });
 
   it('should_return_empty_array_when_no_products', async () => {
     // Given no products exist
     mockRepository.getActiveProducts.mockResolvedValue([]);
+    mockRepository.getAll.mockResolvedValue([]);
 
     // When we get all products
     const result = await useCase.execute();
 
     // Then empty array is returned
-    expect(result).toEqual([]);
+    expect(result.active).toEqual([]);
+    expect(result.totalCount).toBe(0);
   });
 
   it('should_exclude_finished_products', async () => {
     // Given the repository returns only active products (excluding finished)
     mockRepository.getActiveProducts.mockResolvedValue([activeProduct]);
+    mockRepository.getAll.mockResolvedValue([activeProduct, finishedProduct]);
 
     // When we get all products
     const result = await useCase.execute();
 
-    // Then finished products are not included
-    expect(result).not.toContainEqual(finishedProduct);
+    // Then finished products are not included in active
+    expect(result.active).not.toContainEqual(finishedProduct);
     expect(mockRepository.getActiveProducts).toHaveBeenCalled();
+  });
+
+  it('should_return_total_count_including_finished', async () => {
+    // Given some products are finished
+    mockRepository.getActiveProducts.mockResolvedValue([activeProduct]);
+    mockRepository.getAll.mockResolvedValue([activeProduct, finishedProduct]);
+
+    // When we get all products
+    const result = await useCase.execute();
+
+    // Then total count includes finished products
+    expect(result.active).toHaveLength(1);
+    expect(result.totalCount).toBe(2);
+  });
+
+  it('should_detect_all_finished_scenario', async () => {
+    // Given all products are finished
+    mockRepository.getActiveProducts.mockResolvedValue([]);
+    mockRepository.getAll.mockResolvedValue([finishedProduct]);
+
+    // When we get all products
+    const result = await useCase.execute();
+
+    // Then active is empty but totalCount > 0
+    expect(result.active).toHaveLength(0);
+    expect(result.totalCount).toBe(1);
   });
 
   it('should_log_operation', async () => {
     // Given products exist
     mockRepository.getActiveProducts.mockResolvedValue([activeProduct]);
+    mockRepository.getAll.mockResolvedValue([activeProduct]);
 
     // When we get all products
     await useCase.execute();
