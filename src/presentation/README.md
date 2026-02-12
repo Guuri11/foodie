@@ -55,8 +55,8 @@ presentation/
 
 ```typescript
 // features/driver/hooks/use-driver.ts
-import { useState, useEffect } from "react";
-import { useUseCases } from "~/core/providers/use-case-provider";
+import { useState, useEffect } from 'react';
+import { useUseCases } from '~/core/providers/use-case-provider';
 
 export function useDriver(id: string) {
   const { getDriver } = useUseCases();

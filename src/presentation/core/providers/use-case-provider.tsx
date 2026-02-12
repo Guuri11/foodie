@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useMemo } from "react";
+import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
 // Define the UseCases interface with all available use cases
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -17,17 +17,13 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return (
-    <UseCaseContext.Provider value={useCases}>
-      {children}
-    </UseCaseContext.Provider>
-  );
+  return <UseCaseContext.Provider value={useCases}>{children}</UseCaseContext.Provider>;
 }
 
 export function useUseCases(): UseCases {
   const context = useContext(UseCaseContext);
   if (!context) {
-    throw new Error("useUseCases must be used within UseCaseProvider");
+    throw new Error('useUseCases must be used within UseCaseProvider');
   }
   return context;
 }

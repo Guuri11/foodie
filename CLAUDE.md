@@ -1001,39 +1001,30 @@ npm run format:fix       # Prettier auto-format
 ## Common Mistakes to Avoid
 
 1. ❌ **Importing repositories directly in presentation**
-
    - Use `useUseCases()` hook instead
 
 2. ❌ **Business logic in infrastructure or presentation**
-
    - Keep it in domain/application
 
 3. ❌ **Hardcoded strings**
-
    - Use i18n keys
 
 4. ❌ **Deep relative imports** (`../../../`)
-
    - Use path aliases (`~/*`, `@domain/*`)
 
 5. ❌ **Using `useUseCases()` in components**
-
    - Only screens can use DI, components get data via props
 
 6. ❌ **Skipping tests**
-
    - Write tests FIRST (TDD)
 
 7. ❌ **Domain depending on infrastructure**
-
    - Domain must be pure
 
 8. ❌ **Shared components depending on features**
-
    - Keep shared components generic
 
 9. ❌ **Adding complexity or "smart" features**
-
    - Remember: less is more, reduce mental load
 
 10. ❌ **Using alarming or moralistic copy**

@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    font-family: "NunitoSans_400Regular", sans-serif;
+    font-family: 'NunitoSans_400Regular', sans-serif;
   }
 
   :root {

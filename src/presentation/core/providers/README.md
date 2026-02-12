@@ -51,7 +51,7 @@ export default function RootLayout() {
 
 ```typescript
 // features/driver/hooks/use-driver.ts
-import { useUseCases } from "~/core/providers/use-case-provider";
+import { useUseCases } from '~/core/providers/use-case-provider';
 
 export function useDriver(id: string) {
   const { getDriverById } = useUseCases(); // ✅ DI via context
@@ -113,17 +113,17 @@ export interface OperationUseCase {
 
 ```typescript
 // src/application/usecases/entity/operation.ts
-import type { OperationUseCase } from "@domain/entity/use_cases/operation";
-import type { Logger } from "@domain/logger";
+import type { OperationUseCase } from '@domain/entity/use_cases/operation';
+import type { Logger } from '@domain/logger';
 
 export class OperationUseCaseImpl implements OperationUseCase {
   constructor(
     private readonly repository: Repository,
-    private readonly logger: Logger,
+    private readonly logger: Logger
   ) {}
 
   async execute(params: Params): Promise<Result> {
-    this.logger.info("Executing operation", { params });
+    this.logger.info('Executing operation', { params });
     return await this.repository.doSomething(params);
   }
 }
@@ -145,9 +145,9 @@ export class RepositoryHttp implements Repository {
 
 ```typescript
 // src/presentation/core/providers/use-case-provider.tsx
-import type { OperationUseCase } from "@domain/entity/use_cases/operation";
-import { OperationUseCaseImpl } from "@application/usecases/entity/operation";
-import { RepositoryHttp } from "@infrastructure/repositories/entity/repository-http";
+import type { OperationUseCase } from '@domain/entity/use_cases/operation';
+import { OperationUseCaseImpl } from '@application/usecases/entity/operation';
+import { RepositoryHttp } from '@infrastructure/repositories/entity/repository-http';
 
 export interface UseCases {
   // ... existing use cases
@@ -173,7 +173,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
 
 ```typescript
 // src/presentation/features/entity/hooks/use-operation.ts
-import { useUseCases } from "~/core/providers/use-case-provider";
+import { useUseCases } from '~/core/providers/use-case-provider';
 
 export function useOperation() {
   const { operation } = useUseCases();
@@ -205,12 +205,12 @@ export function OperationScreen() {
 ### Mocking UseCases in Tests
 
 ```typescript
-import { renderHook } from "@testing-library/react-native";
-import { useUseCases } from "~/core/providers/use-case-provider";
+import { renderHook } from '@testing-library/react-native';
+import { useUseCases } from '~/core/providers/use-case-provider';
 
-jest.mock("~/core/providers/use-case-provider");
+jest.mock('~/core/providers/use-case-provider');
 
-describe("useDriver hook", () => {
+describe('useDriver hook', () => {
   const mockGetDriverById = jest.fn();
 
   beforeEach(() => {
@@ -219,10 +219,10 @@ describe("useDriver hook", () => {
     } as any);
   });
 
-  it("fetches driver on mount", async () => {
+  it('fetches driver on mount', async () => {
     mockGetDriverById.mockResolvedValue(mockDriver);
 
-    const { result } = renderHook(() => useDriver("123"));
+    const { result } = renderHook(() => useDriver('123'));
 
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.driver).toEqual(mockDriver);
