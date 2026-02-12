@@ -1,1 +1,42 @@
-{}
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo ha ido mal",
+    "add": "Añadir"
+  },
+  "dashboard": {
+    "header": {
+      "add_button": "Añadir"
+    },
+    "empty": {
+      "tagline": "Tu cocina, con memoria.",
+      "cta_text": "Empieza con lo que tengas.",
+      "add_products": "Añadir productos",
+      "all_finished": "Todo usado. Añade lo nuevo."
+    },
+    "suggestions": {
+      "title": "¿Qué como?",
+      "empty": "Añade productos para recibir sugerencias"
+    },
+    "pantry": {
+      "title": "Despensa"
+    },
+    "shopping_list": {
+      "title": "Lista de compra",
+      "empty": "Cuando algo se acabe, aparecerá aquí"
+    }
+  },
+  "product": {
+    "status": {
+      "new": "Nuevo",
+      "opened": "Abierto",
+      "almost_empty": "Por acabar",
+      "finished": "Acabado"
+    },
+    "location": {
+      "fridge": "Nevera",
+      "pantry": "Despensa",
+      "freezer": "Congelador"
+    }
+  }
+}

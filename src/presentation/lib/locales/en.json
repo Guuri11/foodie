@@ -1,1 +1,42 @@
-{}
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "add": "Add"
+  },
+  "dashboard": {
+    "header": {
+      "add_button": "Add"
+    },
+    "empty": {
+      "tagline": "Your kitchen, with memory.",
+      "cta_text": "Start with what you have.",
+      "add_products": "Add products",
+      "all_finished": "All used up. Add what's new."
+    },
+    "suggestions": {
+      "title": "What should I eat?",
+      "empty": "Add products to get suggestions"
+    },
+    "pantry": {
+      "title": "Pantry"
+    },
+    "shopping_list": {
+      "title": "Shopping list",
+      "empty": "When something runs out, it will appear here"
+    }
+  },
+  "product": {
+    "status": {
+      "new": "New",
+      "opened": "Opened",
+      "almost_empty": "Almost empty",
+      "finished": "Finished"
+    },
+    "location": {
+      "fridge": "Fridge",
+      "pantry": "Pantry",
+      "freezer": "Freezer"
+    }
+  }
+}

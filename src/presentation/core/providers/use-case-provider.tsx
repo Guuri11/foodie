@@ -1,19 +1,29 @@
 import { createContext, type ReactNode, useContext, useMemo } from 'react';
 
-// Define the UseCases interface with all available use cases
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface UseCases {}
+import type { AddProductUseCase } from '@domain/product/use-cases/add-product';
+import type { GetAllProductsUseCase } from '@domain/product/use-cases/get-all-products';
+
+import { AddProductUseCaseImpl } from '@application/usecases/product/add-product';
+import { GetAllProductsUseCaseImpl } from '@application/usecases/product/get-all-products';
+
+import { ConsoleLogger } from '@infrastructure/logger/console-logger';
+import { ProductRepositoryMemory } from '@infrastructure/repositories/product/product-repository-memory';
+
+export interface UseCases {
+  getAllProducts: GetAllProductsUseCase;
+  addProduct: AddProductUseCase;
+}
 
 const UseCaseContext = createContext<UseCases | null>(null);
 
 export function UseCaseProvider({ children }: { children: ReactNode }) {
-  // Get token from auth store
-
   const useCases = useMemo<UseCases>(() => {
-    // Instantiate repositories
+    const logger = new ConsoleLogger();
+    const productRepository = new ProductRepositoryMemory();
 
     return {
-      // Authorization annotation use cases
+      getAllProducts: new GetAllProductsUseCaseImpl(productRepository, logger),
+      addProduct: new AddProductUseCaseImpl(productRepository, logger),
     };
   }, []);
 

@@ -3,7 +3,7 @@
     "name": "foodie",
     "slug": "foodie",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./src/presentation/assets/images/icon.png",
     "scheme": "foodie",
     "userInterfaceStyle": "automatic",
@@ -28,6 +28,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-screen-orientation",
       [
         "expo-splash-screen",
         {

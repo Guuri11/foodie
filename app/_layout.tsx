@@ -12,6 +12,7 @@ import {
 import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
@@ -48,6 +49,11 @@ export default function RootLayout() {
   }, [setColorScheme]);
 
   useEffect(() => {
+    // Lock to landscape orientation for tablet kitchen use
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+  }, []);
+
+  useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
@@ -69,7 +75,12 @@ export default function RootLayout() {
                   headerShown: false,
                   contentStyle: { backgroundColor: 'transparent' },
                 }}
-              />
+              >
+                <Stack.Screen name="index" />
+                <Stack.Screen name="modal/add-product" options={{ presentation: 'modal' }} />
+                <Stack.Screen name="pantry" />
+                <Stack.Screen name="shopping-list" />
+              </Stack>
             </View>
             <PortalHost />
           </ThemeProvider>

@@ -22,6 +22,11 @@ afterAll(() => {
   console.error = originalError;
 });
 
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 // Mock localStorage for web platform tests
 global.localStorage = {
   getItem: jest.fn(),
@@ -30,15 +35,20 @@ global.localStorage = {
   clear: jest.fn(),
 };
 
-// Mock Sentry
-jest.mock('@sentry/react-native', () => ({
-  init: jest.fn(),
-  wrap: jest.fn((component) => component),
-  captureException: jest.fn(),
-  captureMessage: jest.fn(),
-  addBreadcrumb: jest.fn(),
-  setUser: jest.fn(),
-  setContext: jest.fn(),
-  setExtra: jest.fn(),
-  setTag: jest.fn(),
-}));
+// Mock Sentry (only if installed)
+try {
+  require.resolve('@sentry/react-native');
+  jest.mock('@sentry/react-native', () => ({
+    init: jest.fn(),
+    wrap: jest.fn((component) => component),
+    captureException: jest.fn(),
+    captureMessage: jest.fn(),
+    addBreadcrumb: jest.fn(),
+    setUser: jest.fn(),
+    setContext: jest.fn(),
+    setExtra: jest.fn(),
+    setTag: jest.fn(),
+  }));
+} catch {
+  // @sentry/react-native not installed, skip mock
+}
