@@ -2,62 +2,56 @@ import { DarkTheme, DefaultTheme, type Theme } from "@react-navigation/native";
 
 export const THEME = {
   light: {
-    background: "hsl(0 0% 100%)",
-    foreground: "hsl(0 0% 0%)",
+    background: "hsl(40 33% 98%)", // cream-50
+    foreground: "hsl(16 14% 14%)", // cream-900
     card: "hsl(0 0% 100%)",
-    cardForeground: "hsl(228 19% 14%)", // neutral-950
+    cardForeground: "hsl(16 14% 14%)", // cream-900
     popover: "hsl(0 0% 100%)",
-    popoverForeground: "hsl(216 100% 23%)", // blue-ant-900
-    primary: "hsl(216 100% 50%)", // blue-ant-700
+    popoverForeground: "hsl(18 12% 21%)", // cream-800
+    primary: "hsl(13 52% 40%)", // terracotta-600
     primaryForeground: "hsl(0 0% 100%)",
-    secondary: "hsl(218 100% 96%)", // blue-ant-100
-    secondaryForeground: "hsl(228 19% 14%)", // neutral-950
-    muted: "hsl(225 40% 95%)", // neutral-100
-    mutedForeground: "hsl(222 12% 41%)", // neutral-800
-    accent: "hsl(210 100% 98%)", // blue-ant-50
-    accentForeground: "hsl(228 19% 14%)", // neutral-950
-    destructive: "hsl(0 85% 61%)", // red-500
+    secondary: "hsl(34 22% 90%)", // cream-200
+    secondaryForeground: "hsl(18 12% 21%)", // cream-800
+    muted: "hsl(37 28% 95%)", // cream-100
+    mutedForeground: "hsl(22 8% 40%)", // cream-600
+    accent: "hsl(20 80% 97%)", // terracotta-50
+    accentForeground: "hsl(16 14% 14%)", // cream-900
+    destructive: "hsl(358 58% 47%)", // red-600
     destructiveForeground: "hsl(0 0% 100%)",
-    warning: "hsl(30 100% 64%)", // orange-ant-600
+    warning: "hsl(33 68% 46%)", // amber-500
     warningForeground: "hsl(0 0% 100%)",
-    border: "hsl(223 33% 90%)", // neutral-300
-    input: "hsl(223 33% 90%)", // neutral-300
-    ring: "hsl(226 28% 76%)", // neutral-600
+    success: "hsl(154 25% 38%)", // sage-600
+    successForeground: "hsl(0 0% 100%)",
+    border: "hsl(30 17% 83%)", // cream-300
+    input: "hsl(30 17% 83%)", // cream-300
+    ring: "hsl(16 52% 70%)", // terracotta-300
     radius: "0.25rem",
-    chart1: "hsl(12 77% 61%)",
-    chart2: "hsl(172 59% 39%)",
-    chart3: "hsl(197 38% 24%)",
-    chart4: "hsl(43 74% 66%)",
-    chart5: "hsl(27 88% 67%)",
   },
   dark: {
-    background: "hsl(228 19% 14%)", // neutral-950
-    foreground: "hsl(220 100% 99%)", // neutral-50
-    card: "hsl(222 22% 23%)", // neutral-900
-    cardForeground: "hsl(220 100% 99%)", // neutral-50
-    popover: "hsl(222 22% 23%)", // neutral-900
-    popoverForeground: "hsl(220 100% 99%)", // neutral-50
-    primary: "hsl(217 100% 65%)", // blue-ant-600
-    primaryForeground: "hsl(0 0% 100%)",
-    secondary: "hsl(222 12% 41%)", // neutral-800
-    secondaryForeground: "hsl(220 100% 99%)", // neutral-50
-    muted: "hsl(222 12% 41%)", // neutral-800
-    mutedForeground: "hsl(225 31% 87%)", // neutral-400
-    accent: "hsl(222 12% 41%)", // neutral-800
-    accentForeground: "hsl(220 100% 99%)", // neutral-50
-    destructive: "hsl(0 64% 31%)", // red-900
-    destructiveForeground: "hsl(0 100% 98%)", // red-50
-    warning: "hsl(28 100% 70%)", // orange-ant-500
-    warningForeground: "hsl(30 100% 24%)", // orange-ant-950
-    border: "hsl(222 12% 41%)", // neutral-800
-    input: "hsl(222 12% 41%)", // neutral-800
-    ring: "hsl(217 100% 65%)", // blue-ant-600
+    background: "hsl(14 16% 9%)", // cream-950
+    foreground: "hsl(40 33% 98%)", // cream-50
+    card: "hsl(16 14% 14%)", // cream-900
+    cardForeground: "hsl(40 33% 98%)", // cream-50
+    popover: "hsl(16 14% 14%)", // cream-900
+    popoverForeground: "hsl(40 33% 98%)", // cream-50
+    primary: "hsl(15 48% 58%)", // terracotta-400
+    primaryForeground: "hsl(14 16% 9%)", // cream-950
+    secondary: "hsl(18 12% 21%)", // cream-800
+    secondaryForeground: "hsl(40 33% 98%)", // cream-50
+    muted: "hsl(18 12% 21%)", // cream-800
+    mutedForeground: "hsl(27 11% 68%)", // cream-400
+    accent: "hsl(18 12% 21%)", // cream-800
+    accentForeground: "hsl(40 33% 98%)", // cream-50
+    destructive: "hsl(0 62% 55%)", // red-500
+    destructiveForeground: "hsl(5 85% 97%)", // red-50
+    warning: "hsl(35 65% 54%)", // amber-400
+    warningForeground: "hsl(20 45% 13%)", // amber-950
+    success: "hsl(150 18% 60%)", // sage-400
+    successForeground: "hsl(162 20% 11%)", // sage-950
+    border: "hsl(18 12% 21%)", // cream-800
+    input: "hsl(18 12% 21%)", // cream-800
+    ring: "hsl(14 50% 48%)", // terracotta-500
     radius: "0.25rem",
-    chart1: "hsl(220 70% 50%)",
-    chart2: "hsl(160 60% 45%)",
-    chart3: "hsl(30 80% 55%)",
-    chart4: "hsl(280 65% 60%)",
-    chart5: "hsl(340 76% 55%)",
   },
 };
 

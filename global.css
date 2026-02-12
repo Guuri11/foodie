@@ -8,130 +8,111 @@
   }
 
   :root {
-    /* Color Primitives from Figma Design System */
-    /* Blue-ant */
-    --blue-ant-50: 210 100% 98%;
-    --blue-ant-100: 218 100% 96%;
-    --blue-ant-200: 212 100% 93%;
-    --blue-ant-300: 213 100% 89%;
-    --blue-ant-400: 214 100% 85%;
-    --blue-ant-500: 217 100% 77%;
-    --blue-ant-600: 217 100% 65%;
-    --blue-ant-700: 216 100% 50%;
-    --blue-ant-800: 217 100% 35%;
-    --blue-ant-900: 216 100% 23%;
-    --blue-ant-950: 216 100% 18%;
+    /* ============================================
+       Color Primitives — Foodie Design System
+       ============================================ */
 
-    /* Rose-ant */
-    --rose-ant-50: 330 100% 98%;
-    --rose-ant-100: 340 100% 96%;
-    --rose-ant-200: 335 100% 89%;
-    --rose-ant-300: 339 100% 86%;
-    --rose-ant-400: 338 85% 81%;
-    --rose-ant-500: 338 77% 74%;
-    --rose-ant-600: 336 69% 68%;
-    --rose-ant-700: 336 63% 56%;
-    --rose-ant-800: 328 87% 38%;
-    --rose-ant-900: 328 85% 33%;
-    --rose-ant-950: 328 86% 22%;
+    /* Cream (warm neutrals) — base of all UI */
+    --cream-50: 40 33% 98%;
+    --cream-100: 37 28% 95%;
+    --cream-200: 34 22% 90%;
+    --cream-300: 30 17% 83%;
+    --cream-400: 27 11% 68%;
+    --cream-500: 24 8% 53%;
+    --cream-600: 22 8% 40%;
+    --cream-700: 20 10% 30%;
+    --cream-800: 18 12% 21%;
+    --cream-900: 16 14% 14%;
+    --cream-950: 14 16% 9%;
 
-    /* Orange-ant */
-    --orange-ant-50: 30 100% 96%;
-    --orange-ant-100: 33 100% 91%;
-    --orange-ant-200: 32 100% 86%;
-    --orange-ant-300: 32 100% 86%;
-    --orange-ant-400: 29 100% 76%;
-    --orange-ant-500: 28 100% 70%;
-    --orange-ant-600: 30 100% 64%;
-    --orange-ant-700: 29 100% 60%;
-    --orange-ant-800: 29 100% 46%;
-    --orange-ant-900: 29 100% 35%;
-    --orange-ant-950: 30 100% 24%;
+    /* Terracotta — single accent color */
+    --terracotta-50: 20 80% 97%;
+    --terracotta-100: 19 70% 92%;
+    --terracotta-200: 17 60% 82%;
+    --terracotta-300: 16 52% 70%;
+    --terracotta-400: 15 48% 58%;
+    --terracotta-500: 14 50% 48%;
+    --terracotta-600: 13 52% 40%;
+    --terracotta-700: 12 50% 33%;
+    --terracotta-800: 10 45% 26%;
+    --terracotta-900: 8 40% 20%;
+    --terracotta-950: 6 35% 13%;
 
-    /* Neutral */
-    --neutral-50: 220 100% 99%;
-    --neutral-100: 225 40% 95%;
-    --neutral-200: 220 37% 92%;
-    --neutral-300: 223 33% 90%;
-    --neutral-400: 225 31% 87%;
-    --neutral-500: 222 29% 83%;
-    --neutral-600: 226 28% 76%;
-    --neutral-700: 226 16% 59%;
-    --neutral-800: 222 12% 41%;
-    --neutral-900: 222 22% 23%;
-    --neutral-950: 228 19% 14%;
+    /* Red — urgency only ("expires today") */
+    --red-50: 5 85% 97%;
+    --red-100: 5 80% 94%;
+    --red-200: 4 75% 87%;
+    --red-300: 3 70% 78%;
+    --red-400: 2 65% 66%;
+    --red-500: 0 62% 55%;
+    --red-600: 358 58% 47%;
+    --red-700: 356 53% 38%;
+    --red-800: 354 48% 30%;
+    --red-900: 352 43% 24%;
+    --red-950: 350 40% 14%;
+
+    /* Amber — soft warning ("use soon") */
+    --amber-50: 45 90% 96%;
+    --amber-100: 43 82% 89%;
+    --amber-200: 40 75% 78%;
+    --amber-300: 38 68% 65%;
+    --amber-400: 35 65% 54%;
+    --amber-500: 33 68% 46%;
+    --amber-600: 30 70% 39%;
+    --amber-700: 27 65% 32%;
+    --amber-800: 24 58% 26%;
+    --amber-900: 22 50% 21%;
+    --amber-950: 20 45% 13%;
+
+    /* Sage — muted green for positive states (not eco-green) */
+    --sage-50: 140 30% 97%;
+    --sage-100: 142 25% 93%;
+    --sage-200: 145 22% 85%;
+    --sage-300: 148 20% 73%;
+    --sage-400: 150 18% 60%;
+    --sage-500: 152 22% 48%;
+    --sage-600: 154 25% 38%;
+    --sage-700: 156 28% 30%;
+    --sage-800: 158 25% 24%;
+    --sage-900: 160 22% 18%;
+    --sage-950: 162 20% 11%;
 
     /* Base */
     --base-white: 0 0% 100%;
     --base-black: 0 0% 0%;
 
-    /* Red */
-    --red-50: 0 100% 98%;
-    --red-100: 0 100% 95%;
-    --red-200: 0 100% 90%;
-    --red-300: 0 94% 82%;
-    --red-400: 0 90% 71%;
-    --red-500: 0 85% 61%;
-    --red-600: 0 72% 51%;
-    --red-700: 0 74% 42%;
-    --red-800: 0 69% 36%;
-    --red-900: 0 64% 31%;
-    --red-950: 0 74% 16%;
-
-    /* Yellow */
-    --yellow-50: 53 100% 96%;
-    --yellow-100: 55 100% 88%;
-    --yellow-200: 52 100% 77%;
-    --yellow-300: 51 97% 64%;
-    --yellow-400: 48 96% 53%;
-    --yellow-500: 45 94% 48%;
-    --yellow-600: 41 95% 41%;
-    --yellow-700: 35 91% 33%;
-    --yellow-800: 32 82% 29%;
-    --yellow-900: 29 73% 26%;
-    --yellow-950: 27 86% 14%;
-
-    /* Green */
-    --green-50: 150 75% 96%;
-    --green-100: 150 80% 90%;
-    --green-200: 154 75% 80%;
-    --green-300: 156 73% 67%;
-    --green-400: 158 65% 52%;
-    --green-500: 160 85% 40%;
-    --green-600: 161 93% 31%;
-    --green-700: 163 92% 25%;
-    --green-800: 163 90% 20%;
-    --green-900: 163 88% 17%;
-    --green-950: 165 89% 9%;
-
-    /* Semantic Colors - Light Mode */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    /* ============================================
+       Semantic Colors — Light Mode
+       ============================================ */
+    --background: var(--cream-50);
+    --foreground: var(--cream-900);
     --card: 0 0% 100%;
-    --card-foreground: var(--neutral-950);
+    --card-foreground: var(--cream-900);
     --popover: 0 0% 100%;
-    --popover-foreground: var(--blue-ant-900);
-    --primary: var(--blue-ant-700);
+    --popover-foreground: var(--cream-800);
+    --primary: var(--terracotta-600);
     --primary-foreground: 0 0% 100%;
-    --secondary: var(--blue-ant-100);
-    --secondary-foreground: var(--neutral-950);
-    --muted: var(--neutral-100);
-    --muted-foreground: var(--neutral-800);
-    --accent: var(--blue-ant-50);
-    --accent-foreground: var(--neutral-950);
-    --destructive: var(--red-500);
+    --secondary: var(--cream-200);
+    --secondary-foreground: var(--cream-800);
+    --muted: var(--cream-100);
+    --muted-foreground: var(--cream-600);
+    --accent: var(--terracotta-50);
+    --accent-foreground: var(--cream-900);
+    --destructive: var(--red-600);
     --destructive-foreground: 0 0% 100%;
-    --warning: var(--orange-ant-600);
+    --warning: var(--amber-500);
     --warning-foreground: 0 0% 100%;
-    --border: var(--neutral-300);
-    --input: var(--neutral-300);
-    --ring: var(--neutral-600);
+    --success: var(--sage-600);
+    --success-foreground: 0 0% 100%;
+    --border: var(--cream-300);
+    --input: var(--cream-300);
+    --ring: var(--terracotta-300);
 
     /* Additional tokens */
-    --border-primary: var(--blue-ant-300);
-    --background-primary: var(--blue-ant-50);
-    --primary-hover: var(--blue-ant-800);
-    --secondary-hover: var(--blue-ant-200);
+    --border-primary: var(--terracotta-200);
+    --background-primary: var(--terracotta-50);
+    --primary-hover: var(--terracotta-700);
+    --secondary-hover: var(--cream-300);
 
     /* Radius */
     --radius-none: 0;
@@ -159,50 +140,40 @@
     --spacing-5xl: 2.5rem;
     --spacing-6xl: 3rem;
     --spacing-7xl: 4rem;
-
-    /* Charts */
-    --chart-1: 12 77% 61%;
-    --chart-2: 172 59% 39%;
-    --chart-3: 197 38% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 88% 67%;
   }
 
   .dark:root {
-    /* Semantic Colors - Dark Mode using primitives */
-    --background: var(--neutral-950);
-    --foreground: var(--neutral-50);
-    --card: var(--neutral-900);
-    --card-foreground: var(--neutral-50);
-    --popover: var(--neutral-900);
-    --popover-foreground: var(--neutral-50);
-    --primary: var(--blue-ant-600);
-    --primary-foreground: 0 0% 100%;
-    --secondary: var(--neutral-800);
-    --secondary-foreground: var(--neutral-50);
-    --muted: var(--neutral-800);
-    --muted-foreground: var(--neutral-400);
-    --accent: var(--neutral-800);
-    --accent-foreground: var(--neutral-50);
-    --destructive: var(--red-900);
+    /* ============================================
+       Semantic Colors — Dark Mode
+       ============================================ */
+    --background: var(--cream-950);
+    --foreground: var(--cream-50);
+    --card: var(--cream-900);
+    --card-foreground: var(--cream-50);
+    --popover: var(--cream-900);
+    --popover-foreground: var(--cream-50);
+    --primary: var(--terracotta-400);
+    --primary-foreground: var(--cream-950);
+    --secondary: var(--cream-800);
+    --secondary-foreground: var(--cream-50);
+    --muted: var(--cream-800);
+    --muted-foreground: var(--cream-400);
+    --accent: var(--cream-800);
+    --accent-foreground: var(--cream-50);
+    --destructive: var(--red-500);
     --destructive-foreground: var(--red-50);
-    --warning: var(--orange-ant-500);
-    --warning-foreground: var(--orange-ant-950);
-    --border: var(--neutral-800);
-    --input: var(--neutral-800);
-    --ring: var(--blue-ant-600);
+    --warning: var(--amber-400);
+    --warning-foreground: var(--amber-950);
+    --success: var(--sage-400);
+    --success-foreground: var(--sage-950);
+    --border: var(--cream-800);
+    --input: var(--cream-800);
+    --ring: var(--terracotta-500);
 
     /* Additional tokens */
-    --border-primary: var(--blue-ant-800);
-    --background-primary: var(--neutral-900);
-    --primary-hover: var(--blue-ant-500);
-    --secondary-hover: var(--neutral-700);
-
-    /* Charts */
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 76% 55%;
+    --border-primary: var(--terracotta-800);
+    --background-primary: var(--cream-900);
+    --primary-hover: var(--terracotta-300);
+    --secondary-hover: var(--cream-700);
   }
 }
