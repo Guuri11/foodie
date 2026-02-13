@@ -1,5 +1,5 @@
-import { isExpired, isExpiringSoon } from './model';
 import type { Product } from './model';
+import { isExpired, isExpiringSoon } from './model';
 
 /**
  * Urgency levels for product expiry (H2.4).

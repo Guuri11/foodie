@@ -1,10 +1,9 @@
 import type { Logger } from '@domain/logger';
+import { ProductError } from '@domain/product/errors';
 import { type Product, type ProductUpdate, updateProduct } from '@domain/product/model';
 import type { ProductRepository } from '@domain/product/repository';
-import type { UpdateProductUseCase } from '@domain/product/use-cases/update-product';
 import type { EstimateExpiryUseCase } from '@domain/product/use-cases/estimate-expiry';
-
-import { ProductError } from '@domain/product/errors';
+import type { UpdateProductUseCase } from '@domain/product/use-cases/update-product';
 
 export class UpdateProductUseCaseImpl implements UpdateProductUseCase {
   constructor(

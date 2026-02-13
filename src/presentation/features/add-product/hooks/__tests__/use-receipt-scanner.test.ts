@@ -31,6 +31,7 @@ describe('useReceiptScanner', () => {
       estimateExpiry: { execute: jest.fn() },
       scanReceipt: { execute: mockScanReceiptExecute },
       identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
+      getSuggestions: { execute: jest.fn() },
     });
 
     useProductStore.setState({

@@ -1,5 +1,5 @@
 import { createProduct } from '../model';
-import { getUrgencyLevel, getUrgencyInfo, daysUntilExpiry } from '../urgency-messages';
+import { daysUntilExpiry,getUrgencyInfo, getUrgencyLevel } from '../urgency-messages';
 
 describe('Urgency Messages (H2.4)', () => {
   describe('getUrgencyLevel', () => {

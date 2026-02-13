@@ -2,8 +2,8 @@ import type { Logger } from '@domain/logger';
 import { ProductError } from '@domain/product/errors';
 import { type Product, updateProduct } from '@domain/product/model';
 import type { ProductRepository } from '@domain/product/repository';
-import type { UpdateProductStatusUseCase } from '@domain/product/use-cases/update-product-status';
 import type { EstimateExpiryUseCase } from '@domain/product/use-cases/estimate-expiry';
+import type { UpdateProductStatusUseCase } from '@domain/product/use-cases/update-product-status';
 import type { ProductStatus } from '@domain/product/value-objects';
 
 /**

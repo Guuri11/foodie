@@ -79,6 +79,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" />
                 <Stack.Screen name="modal/add-product" options={{ presentation: 'modal' }} />
                 <Stack.Screen name="modal/product/[id]" options={{ presentation: 'modal' }} />
+                <Stack.Screen name="modal/suggestion/[id]" options={{ presentation: 'modal' }} />
                 <Stack.Screen name="pantry" />
                 <Stack.Screen name="shopping-list" />
               </Stack>

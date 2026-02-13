@@ -2,7 +2,8 @@
   "common": {
     "loading": "Cargando...",
     "error": "Algo ha ido mal",
-    "add": "Añadir"
+    "add": "Añadir",
+    "close": "Cerrar"
   },
   "dashboard": {
     "header": {
@@ -99,5 +100,19 @@
     "filter_all": "Todos",
     "empty": "No hay productos",
     "empty_filtered": "No hay productos con este estado"
+  },
+  "suggestion": {
+    "loading": "Buscando ideas...",
+    "error": "No pudimos obtener sugerencias",
+    "no_suggestions": "Añade productos para empezar",
+    "urgent_ingredient": "Úsalo pronto",
+    "urgent": "Úsalo pronto",
+    "time_quick": "~10 min",
+    "time_medium": "~20 min",
+    "time_long": "~30 min",
+    "not_found": "Sugerencia no encontrada",
+    "ingredients_title": "Lo que necesitas",
+    "steps_title": "Cómo hacerlo",
+    "got_it": "Entendido"
   }
 }

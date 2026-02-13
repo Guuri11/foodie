@@ -36,6 +36,7 @@ describe('useProductScanner', () => {
         executeByImage: mockIdentifyByImage,
         executeByBarcode: mockIdentifyByBarcode,
       },
+      getSuggestions: { execute: jest.fn() },
     });
 
     useProductStore.setState({

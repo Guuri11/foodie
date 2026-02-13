@@ -52,6 +52,7 @@ describe('useDashboard', () => {
       estimateExpiry: { execute: jest.fn() },
       scanReceipt: { execute: jest.fn() },
       identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
+      getSuggestions: { execute: jest.fn() },
     });
   });
 
