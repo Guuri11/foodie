@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { ChevronRight, Refrigerator, Snowflake, Warehouse } from 'lucide-react-native';
 
 import { type Product, sortByUrgency } from '@domain/product/model';
+import { getUrgencyInfo } from '@domain/product/urgency-messages';
 import type { ProductLocation } from '@domain/product/value-objects';
 
 import { Badge } from '~/shared/ui/badge';
@@ -54,6 +55,7 @@ export function PantryPanel({ products }: PantryPanelProps) {
       <CardContent className="flex-1 gap-2">
         {visibleProducts.map((product) => {
           const LocationIcon = product.location ? LOCATION_ICONS[product.location] : null;
+          const urgency = getUrgencyInfo(product);
           return (
             <Pressable
               key={product.id}
@@ -65,6 +67,19 @@ export function PantryPanel({ products }: PantryPanelProps) {
                 <Text>{product.name}</Text>
                 {product.quantity && (
                   <Text className="text-xs text-muted-foreground">{product.quantity}</Text>
+                )}
+                {urgency.level !== 'ok' && (
+                  <Text
+                    className={`text-xs ${
+                      urgency.level === 'wouldnt_trust'
+                        ? 'text-red-600'
+                        : urgency.level === 'use_today'
+                          ? 'text-orange-600'
+                          : 'text-amber-600'
+                    }`}
+                  >
+                    {t(urgency.messageKey)}
+                  </Text>
                 )}
               </View>
               <Badge variant={statusToBadgeVariant(product.status)}>

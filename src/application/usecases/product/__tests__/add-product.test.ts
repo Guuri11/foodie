@@ -1,12 +1,14 @@
 import type { Logger } from '@domain/logger';
 import { ProductError } from '@domain/product/errors';
 import type { ProductRepository } from '@domain/product/repository';
+import type { EstimateExpiryUseCase } from '@domain/product/use-cases/estimate-expiry';
 
 import { AddProductUseCaseImpl } from '../add-product';
 
 describe('AddProductUseCase', () => {
   let mockRepository: jest.Mocked<ProductRepository>;
   let mockLogger: jest.Mocked<Logger>;
+  let mockEstimateExpiry: jest.Mocked<EstimateExpiryUseCase>;
   let useCase: AddProductUseCaseImpl;
 
   beforeEach(() => {
@@ -22,7 +24,10 @@ describe('AddProductUseCase', () => {
       error: jest.fn(),
       warn: jest.fn(),
     };
-    useCase = new AddProductUseCaseImpl(mockRepository, mockLogger);
+    mockEstimateExpiry = {
+      execute: jest.fn(),
+    };
+    useCase = new AddProductUseCaseImpl(mockRepository, mockLogger, mockEstimateExpiry);
   });
 
   it('should_add_product_with_status_new', async () => {
@@ -132,5 +137,46 @@ describe('AddProductUseCase', () => {
     // Then location and quantity are undefined
     expect(product.location).toBeUndefined();
     expect(product.quantity).toBeUndefined();
+  });
+
+  describe('Automatic expiry estimation (H2.3)', () => {
+    it('should_estimate_expiry_automatically_when_product_added', async () => {
+      // Given a product without manual expiry date
+      mockRepository.save.mockResolvedValue(undefined);
+      const mockProduct = { id: '1', name: 'Milk', status: 'new' };
+      mockEstimateExpiry.execute.mockResolvedValue(mockProduct as any);
+
+      // When we add the product
+      const product = await useCase.execute('Milk');
+
+      // Then expiry estimation is triggered
+      expect(mockEstimateExpiry.execute).toHaveBeenCalledWith(product.id);
+    });
+
+    it('should_not_block_product_creation_when_estimation_fails', async () => {
+      // Given estimation service fails
+      mockRepository.save.mockResolvedValue(undefined);
+      mockEstimateExpiry.execute.mockRejectedValue(new Error('API unavailable'));
+
+      // When we add the product
+      const product = await useCase.execute('Milk');
+
+      // Then product is still created successfully
+      expect(product.name).toBe('Milk');
+      expect(mockRepository.save).toHaveBeenCalled();
+    });
+
+    it('should_estimate_expiry_considering_location_when_provided', async () => {
+      // Given a product with location
+      mockRepository.save.mockResolvedValue(undefined);
+      const mockProduct = { id: '1', name: 'Milk', location: 'freezer', status: 'new' };
+      mockEstimateExpiry.execute.mockResolvedValue(mockProduct as any);
+
+      // When we add the product with freezer location
+      const product = await useCase.execute('Milk', { location: 'freezer' });
+
+      // Then estimation is called with product id
+      expect(mockEstimateExpiry.execute).toHaveBeenCalledWith(product.id);
+    });
   });
 });

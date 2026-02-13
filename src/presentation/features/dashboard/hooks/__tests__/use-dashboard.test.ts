@@ -47,6 +47,9 @@ describe('useDashboard', () => {
       getAllProducts: { execute: mockGetAllProducts },
       addProduct: { execute: mockAddProduct },
       updateProduct: { execute: jest.fn() },
+      updateProductStatus: { execute: jest.fn() },
+      setProductOutcome: { execute: jest.fn() },
+      estimateExpiry: { execute: jest.fn() },
       scanReceipt: { execute: jest.fn() },
       identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
     });

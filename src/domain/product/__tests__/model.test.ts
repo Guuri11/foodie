@@ -323,4 +323,95 @@ describe('Product Model', () => {
       expect(updated.createdAt).toEqual(product.createdAt);
     });
   });
+
+  describe('Status transitions (H2.1)', () => {
+    it('should_allow_transition_from_new_to_finished', () => {
+      // Given a product with status 'new'
+      const product = createProduct({ id: '1', name: 'Milk', status: 'new' });
+
+      // When updating status to 'finished'
+      const updated = updateProduct(product, { status: 'finished' });
+
+      // Then the status should change
+      expect(updated.status).toBe('finished');
+    });
+
+    it('should_allow_transition_from_finished_to_opened', () => {
+      // Given a product with status 'finished' (user made mistake)
+      const product = createProduct({
+        id: '1',
+        name: 'Milk',
+        status: 'finished',
+        outcome: 'used',
+      });
+
+      // When updating status back to 'opened'
+      const updated = updateProduct(product, { status: 'opened', outcome: undefined });
+
+      // Then the status should change and outcome should clear
+      expect(updated.status).toBe('opened');
+      expect(updated.outcome).toBeUndefined();
+    });
+
+    it('should_allow_all_status_transitions', () => {
+      // Given any status
+      const statuses: Array<'new' | 'opened' | 'almost_empty' | 'finished'> = [
+        'new',
+        'opened',
+        'almost_empty',
+        'finished',
+      ];
+
+      for (const fromStatus of statuses) {
+        for (const toStatus of statuses) {
+          // When transitioning from any status to any other status
+          const product = createProduct({ id: '1', name: 'Milk', status: fromStatus });
+          const updated = updateProduct(product, { status: toStatus });
+
+          // Then the transition should be allowed
+          expect(updated.status).toBe(toStatus);
+        }
+      }
+    });
+  });
+
+  describe('Outcome validation (H2.5)', () => {
+    it('should_accept_outcome_when_status_is_finished', () => {
+      // Given a product with status 'finished'
+      const product = createProduct({ id: '1', name: 'Milk', status: 'finished' });
+
+      // When setting outcome
+      const updated = updateProduct(product, { outcome: 'used' });
+
+      // Then outcome should be set
+      expect(updated.outcome).toBe('used');
+    });
+
+    it('should_accept_thrown_away_outcome_when_status_is_finished', () => {
+      // Given a product with status 'finished'
+      const product = createProduct({ id: '1', name: 'Milk', status: 'finished' });
+
+      // When setting outcome to 'thrown_away'
+      const updated = updateProduct(product, { outcome: 'thrown_away' });
+
+      // Then outcome should be set
+      expect(updated.outcome).toBe('thrown_away');
+    });
+
+    it('should_clear_outcome_when_transitioning_from_finished_to_other_status', () => {
+      // Given a finished product with outcome
+      const product = createProduct({
+        id: '1',
+        name: 'Milk',
+        status: 'finished',
+        outcome: 'used',
+      });
+
+      // When reverting status back (user made mistake)
+      const updated = updateProduct(product, { status: 'opened', outcome: undefined });
+
+      // Then outcome should be cleared
+      expect(updated.outcome).toBeUndefined();
+    });
+  });
 });

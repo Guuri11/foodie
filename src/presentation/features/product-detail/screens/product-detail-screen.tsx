@@ -6,13 +6,29 @@ interface ProductDetailScreenProps {
 }
 
 export function ProductDetailScreen({ productId }: ProductDetailScreenProps) {
-  const { product, setLocation, setQuantity } = useProductDetail(productId);
+  const {
+    product,
+    setLocation,
+    setQuantity,
+    setStatus,
+    setExpiryDate,
+    urgencyInfo,
+    showOutcomePrompt,
+    finishWithOutcome,
+    dismissOutcomePrompt,
+  } = useProductDetail(productId);
 
   return (
     <ProductDetailView
       product={product}
+      urgencyInfo={urgencyInfo}
+      showOutcomePrompt={showOutcomePrompt}
       onLocationChange={setLocation}
       onQuantityChange={setQuantity}
+      onStatusChange={setStatus}
+      onExpiryDateChange={setExpiryDate}
+      onOutcomeSelect={finishWithOutcome}
+      onOutcomeDismiss={dismissOutcomePrompt}
     />
   );
 }

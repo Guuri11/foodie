@@ -65,7 +65,15 @@
     "not_found": "Producto no encontrado",
     "location_fridge": "Nevera",
     "location_pantry": "Despensa",
-    "location_freezer": "Congelador"
+    "location_freezer": "Congelador",
+    "status_label": "Estado",
+    "expiry_label": "Caducidad",
+    "expiry_none": "Sin fecha",
+    "expiry_clear": "Quitar fecha",
+    "expiry_estimated_prefix": "Aprox.",
+    "outcome_title": "¿Qué pasó?",
+    "outcome_used": "Usado",
+    "outcome_thrown": "Tirado"
   },
   "product": {
     "status": {
@@ -78,6 +86,18 @@
       "fridge": "Nevera",
       "pantry": "Despensa",
       "freezer": "Congelador"
+    },
+    "urgency": {
+      "ok": "Todo bien",
+      "use_soon": "Úsalo pronto",
+      "use_today": "Esto mejor hoy",
+      "wouldnt_trust": "Yo no me lo comería"
     }
+  },
+  "pantry": {
+    "title": "Tu despensa",
+    "filter_all": "Todos",
+    "empty": "No hay productos",
+    "empty_filtered": "No hay productos con este estado"
   }
 }

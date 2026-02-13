@@ -28,6 +28,9 @@ describe('useProductScanner', () => {
       getAllProducts: { execute: mockGetAllProductsExecute },
       addProduct: { execute: mockAddProductExecute },
       updateProduct: { execute: jest.fn() },
+      updateProductStatus: { execute: jest.fn() },
+      setProductOutcome: { execute: jest.fn() },
+      estimateExpiry: { execute: jest.fn() },
       scanReceipt: { execute: jest.fn() },
       identifyProduct: {
         executeByImage: mockIdentifyByImage,

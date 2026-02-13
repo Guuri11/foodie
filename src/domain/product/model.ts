@@ -84,13 +84,45 @@ export function sortByUrgency(products: Product[]): Product[] {
   return [...products].sort((a, b) => urgencyScore(a) - urgencyScore(b));
 }
 
-export type ProductUpdate = Partial<
-  Pick<
-    Product,
-    'location' | 'quantity' | 'status' | 'expiryDate' | 'estimatedExpiryDate' | 'outcome'
-  >
->;
+export type ProductUpdate = Partial<Pick<Product, 'location' | 'quantity' | 'status'>> & {
+  expiryDate?: Date | null;
+  estimatedExpiryDate?: Date | null;
+  outcome?: ProductOutcome | null;
+};
+
+function resolveNullable<T>(
+  changeValue: T | null | undefined,
+  existingValue: T | undefined,
+  fieldKey: string,
+  changes: Record<string, unknown>
+): T | undefined {
+  if (!(fieldKey in changes)) return existingValue;
+  if (changeValue === null || changeValue === undefined) return undefined;
+  return changeValue;
+}
 
 export function updateProduct(product: Product, changes: ProductUpdate): Product {
-  return { ...product, ...changes, updatedAt: new Date() };
+  return {
+    ...product,
+    ...changes,
+    expiryDate: resolveNullable(
+      changes.expiryDate,
+      product.expiryDate,
+      'expiryDate',
+      changes as Record<string, unknown>
+    ),
+    estimatedExpiryDate: resolveNullable(
+      changes.estimatedExpiryDate,
+      product.estimatedExpiryDate,
+      'estimatedExpiryDate',
+      changes as Record<string, unknown>
+    ),
+    outcome: resolveNullable(
+      changes.outcome,
+      product.outcome,
+      'outcome',
+      changes as Record<string, unknown>
+    ),
+    updatedAt: new Date(),
+  };
 }

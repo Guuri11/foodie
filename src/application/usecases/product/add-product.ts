@@ -4,12 +4,14 @@ import type { Logger } from '@domain/logger';
 import { createProduct, type Product } from '@domain/product/model';
 import type { ProductRepository } from '@domain/product/repository';
 import type { AddProductUseCase } from '@domain/product/use-cases/add-product';
+import type { EstimateExpiryUseCase } from '@domain/product/use-cases/estimate-expiry';
 import type { ProductLocation } from '@domain/product/value-objects';
 
 export class AddProductUseCaseImpl implements AddProductUseCase {
   constructor(
     private readonly repository: ProductRepository,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly estimateExpiry: EstimateExpiryUseCase
   ) {}
 
   async execute(
@@ -26,6 +28,15 @@ export class AddProductUseCaseImpl implements AddProductUseCase {
     });
 
     await this.repository.save(product);
+
+    // Automatically estimate expiry after product creation (H2.3)
+    // Fail gracefully - don't block product creation if estimation fails
+    try {
+      await this.estimateExpiry.execute(product.id);
+    } catch (error) {
+      this.logger.warn('Automatic expiry estimation failed', { productId: product.id, error });
+    }
+
     return product;
   }
 }

@@ -2,13 +2,15 @@ import type { Logger } from '@domain/logger';
 import { type Product, type ProductUpdate, updateProduct } from '@domain/product/model';
 import type { ProductRepository } from '@domain/product/repository';
 import type { UpdateProductUseCase } from '@domain/product/use-cases/update-product';
+import type { EstimateExpiryUseCase } from '@domain/product/use-cases/estimate-expiry';
 
 import { ProductError } from '@domain/product/errors';
 
 export class UpdateProductUseCaseImpl implements UpdateProductUseCase {
   constructor(
     private readonly repository: ProductRepository,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly estimateExpiry: EstimateExpiryUseCase
   ) {}
 
   async execute(id: string, changes: ProductUpdate): Promise<Product> {
@@ -21,6 +23,21 @@ export class UpdateProductUseCaseImpl implements UpdateProductUseCase {
 
     const updated = updateProduct(existing, changes);
     await this.repository.save(updated);
+
+    // Automatically re-estimate expiry when location changes (H2.3)
+    // Only if no manual expiry date is being set in this update
+    const locationChanged =
+      changes.location !== undefined && changes.location !== existing.location;
+    const manualExpiryProvided = changes.expiryDate !== undefined;
+
+    if (locationChanged && !manualExpiryProvided) {
+      try {
+        await this.estimateExpiry.execute(id);
+      } catch (error) {
+        this.logger.warn('Automatic expiry re-estimation failed', { productId: id, error });
+      }
+    }
+
     return updated;
   }
 }
