@@ -14,6 +14,7 @@ interface ProductState {
 interface ProductActions {
   loadProducts: () => Promise<void>;
   addProduct: (name: string) => Promise<void>;
+  addProducts: (names: string[]) => Promise<void>;
   initialize: (useCases: {
     getAllProducts: GetAllProductsUseCase;
     addProduct: AddProductUseCase;
@@ -57,5 +58,20 @@ export const useProductStore = create<ProductStore>((set, get) => ({
       set({ error: e instanceof Error ? e : new Error('Unknown error') });
       throw e;
     }
+  },
+
+  addProducts: async (names: string[]) => {
+    if (!_addProduct) return;
+    set({ error: null });
+
+    for (const name of names) {
+      try {
+        await _addProduct.execute(name);
+      } catch {
+        // Continue with remaining products on individual failure
+      }
+    }
+
+    await get().loadProducts();
   },
 }));

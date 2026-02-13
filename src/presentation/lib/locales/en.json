@@ -26,6 +26,24 @@
       "empty": "When something runs out, it will appear here"
     }
   },
+  "add_product": {
+    "title": "Add products",
+    "input_placeholder": "What do you have?",
+    "add_button": "Add",
+    "added_feedback": "Added!",
+    "close": "Done",
+    "scan_button": "Scan receipt",
+    "scanning": "Reading receipt...",
+    "review_title": "We found these",
+    "review_count": "{{count}} products",
+    "review_confirm": "Add all",
+    "review_cancel": "Discard",
+    "scan_error": "Couldn't read the receipt. Try again?",
+    "no_connection": "You need connection to scan. Write them by hand for now.",
+    "camera_permission": "We need the camera to scan receipts",
+    "low_confidence": "Check this one",
+    "items_added": "{{count}} products added!"
+  },
   "product": {
     "status": {
       "new": "New",

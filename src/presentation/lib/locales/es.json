@@ -26,6 +26,24 @@
       "empty": "Cuando algo se acabe, aparecerá aquí"
     }
   },
+  "add_product": {
+    "title": "Añadir productos",
+    "input_placeholder": "¿Qué tienes?",
+    "add_button": "Añadir",
+    "added_feedback": "¡Añadido!",
+    "close": "Listo",
+    "scan_button": "Escanear ticket",
+    "scanning": "Leyendo ticket...",
+    "review_title": "Hemos encontrado esto",
+    "review_count": "{{count}} productos",
+    "review_confirm": "Añadir todos",
+    "review_cancel": "Descartar",
+    "scan_error": "No se pudo leer el ticket. ¿Intentamos otra vez?",
+    "no_connection": "Necesitas conexión para escanear. Mientras, escríbelos a mano.",
+    "camera_permission": "Necesitamos la cámara para escanear tickets",
+    "low_confidence": "Revisa este",
+    "items_added": "¡{{count}} productos añadidos!"
+  },
   "product": {
     "status": {
       "new": "Nuevo",

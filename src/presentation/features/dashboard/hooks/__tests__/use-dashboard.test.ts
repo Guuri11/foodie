@@ -46,6 +46,7 @@ describe('useDashboard', () => {
     mockUseUseCases.mockReturnValue({
       getAllProducts: { execute: mockGetAllProducts },
       addProduct: { execute: mockAddProduct },
+      scanReceipt: { execute: jest.fn() },
     });
   });
 
