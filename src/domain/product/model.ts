@@ -83,3 +83,14 @@ export function urgencyScore(product: Product): number {
 export function sortByUrgency(products: Product[]): Product[] {
   return [...products].sort((a, b) => urgencyScore(a) - urgencyScore(b));
 }
+
+export type ProductUpdate = Partial<
+  Pick<
+    Product,
+    'location' | 'quantity' | 'status' | 'expiryDate' | 'estimatedExpiryDate' | 'outcome'
+  >
+>;
+
+export function updateProduct(product: Product, changes: ProductUpdate): Product {
+  return { ...product, ...changes, updatedAt: new Date() };
+}

@@ -43,7 +43,9 @@ describe('useAddProduct', () => {
     mockUseUseCases.mockReturnValue({
       getAllProducts: { execute: mockGetAllProducts },
       addProduct: { execute: mockAddProduct },
+      updateProduct: { execute: jest.fn() },
       scanReceipt: { execute: jest.fn() },
+      identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
     });
   });
 

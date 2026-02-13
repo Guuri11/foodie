@@ -42,7 +42,30 @@
     "no_connection": "You need connection to scan. Write them by hand for now.",
     "camera_permission": "We need the camera to scan receipts",
     "low_confidence": "Check this one",
-    "items_added": "{{count}} products added!"
+    "items_added": "{{count}} products added!",
+    "product_scan_hint": "Point at a product or its barcode",
+    "product_identified": "Is this right?",
+    "product_confirm": "Add",
+    "product_scan_again": "Scan again",
+    "product_write_manually": "Write manually",
+    "product_not_recognized": "Couldn't identify the product",
+    "product_bad_lighting": "Try with better lighting",
+    "barcode_not_found": "Barcode not in database. Try a photo instead?",
+    "switch_to_receipt": "Scan receipt",
+    "switch_to_product": "Scan product",
+    "identifying": "Identifying...",
+    "extras_subtitle": "Want to add more info?",
+    "extras_confirm": "Add",
+    "extras_skip": "Skip"
+  },
+  "product_detail": {
+    "location_label": "Where is it?",
+    "quantity_label": "How much?",
+    "quantity_placeholder": "e.g. 2, 1 L, half a pack",
+    "not_found": "Product not found",
+    "location_fridge": "Fridge",
+    "location_pantry": "Pantry",
+    "location_freezer": "Freezer"
   },
   "product": {
     "status": {

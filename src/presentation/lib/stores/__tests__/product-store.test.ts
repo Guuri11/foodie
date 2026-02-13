@@ -20,6 +20,7 @@ describe('ProductStore — addProducts batch', () => {
     useProductStore.getState().initialize({
       getAllProducts: { execute: mockGetAllProductsExecute },
       addProduct: { execute: mockAddProductExecute },
+      updateProduct: { execute: jest.fn() },
     });
   });
 

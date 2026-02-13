@@ -1,5 +1,12 @@
 import { ProductError } from '../errors';
-import { createProduct, isActive, isExpired, isExpiringSoon, sortByUrgency } from '../model';
+import {
+  createProduct,
+  isActive,
+  isExpired,
+  isExpiringSoon,
+  sortByUrgency,
+  updateProduct,
+} from '../model';
 
 describe('Product Model', () => {
   describe('Creating a product', () => {
@@ -278,6 +285,42 @@ describe('Product Model', () => {
 
       expect(products[0].name).toBe('Pasta');
       expect(sorted[0].name).toBe('Oil');
+    });
+  });
+
+  describe('Updating a product', () => {
+    it('should_update_location_when_set', () => {
+      const product = createProduct({ id: '1', name: 'Milk' });
+      const updated = updateProduct(product, { location: 'fridge' });
+      expect(updated.location).toBe('fridge');
+    });
+
+    it('should_update_quantity_when_set', () => {
+      const product = createProduct({ id: '1', name: 'Milk' });
+      const updated = updateProduct(product, { quantity: '1 L' });
+      expect(updated.quantity).toBe('1 L');
+    });
+
+    it('should_clear_location_when_set_to_undefined', () => {
+      const product = createProduct({ id: '1', name: 'Milk', location: 'fridge' });
+      const updated = updateProduct(product, { location: undefined });
+      expect(updated.location).toBeUndefined();
+    });
+
+    it('should_refresh_updatedAt_on_update', () => {
+      const past = new Date('2020-01-01');
+      const product = createProduct({ id: '1', name: 'Milk', updatedAt: past });
+      const updated = updateProduct(product, { location: 'fridge' });
+      expect(updated.updatedAt.getTime()).toBeGreaterThan(past.getTime());
+    });
+
+    it('should_preserve_unchanged_fields', () => {
+      const product = createProduct({ id: '1', name: 'Milk', status: 'opened' });
+      const updated = updateProduct(product, { location: 'fridge' });
+      expect(updated.name).toBe('Milk');
+      expect(updated.status).toBe('opened');
+      expect(updated.id).toBe('1');
+      expect(updated.createdAt).toEqual(product.createdAt);
     });
   });
 });

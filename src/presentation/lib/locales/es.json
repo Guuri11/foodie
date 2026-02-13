@@ -42,7 +42,30 @@
     "no_connection": "Necesitas conexión para escanear. Mientras, escríbelos a mano.",
     "camera_permission": "Necesitamos la cámara para escanear tickets",
     "low_confidence": "Revisa este",
-    "items_added": "¡{{count}} productos añadidos!"
+    "items_added": "¡{{count}} productos añadidos!",
+    "product_scan_hint": "Apunta a un producto o a su código de barras",
+    "product_identified": "¿Es esto?",
+    "product_confirm": "Añadir",
+    "product_scan_again": "Escanear otra vez",
+    "product_write_manually": "Escribir a mano",
+    "product_not_recognized": "No se pudo identificar el producto",
+    "product_bad_lighting": "Prueba con más luz",
+    "barcode_not_found": "Código no encontrado. ¿Probamos con foto?",
+    "switch_to_receipt": "Escanear ticket",
+    "switch_to_product": "Escanear producto",
+    "identifying": "Identificando...",
+    "extras_subtitle": "¿Quieres completar la info?",
+    "extras_confirm": "Añadir",
+    "extras_skip": "Saltar"
+  },
+  "product_detail": {
+    "location_label": "¿Dónde está?",
+    "quantity_label": "¿Cuánto queda?",
+    "quantity_placeholder": "ej. 2, 1 L, medio paquete",
+    "not_found": "Producto no encontrado",
+    "location_fridge": "Nevera",
+    "location_pantry": "Despensa",
+    "location_freezer": "Congelador"
   },
   "product": {
     "status": {

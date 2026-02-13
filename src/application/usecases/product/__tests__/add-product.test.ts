@@ -99,4 +99,38 @@ describe('AddProductUseCase', () => {
     // Then the operation is logged
     expect(mockLogger.info).toHaveBeenCalledWith('Adding product', { name: 'Milk' });
   });
+
+  it('should_create_product_with_location_when_provided', async () => {
+    // Given a valid product name with location
+    mockRepository.save.mockResolvedValue(undefined);
+
+    // When we add a product with location
+    const product = await useCase.execute('Milk', { location: 'fridge' });
+
+    // Then the product has the location
+    expect(product.location).toBe('fridge');
+  });
+
+  it('should_create_product_with_quantity_when_provided', async () => {
+    // Given a valid product name with quantity
+    mockRepository.save.mockResolvedValue(undefined);
+
+    // When we add a product with quantity
+    const product = await useCase.execute('Milk', { quantity: '1 L' });
+
+    // Then the product has the quantity
+    expect(product.quantity).toBe('1 L');
+  });
+
+  it('should_create_product_without_extras_when_not_provided', async () => {
+    // Given a valid product name without options
+    mockRepository.save.mockResolvedValue(undefined);
+
+    // When we add a product without options
+    const product = await useCase.execute('Milk');
+
+    // Then location and quantity are undefined
+    expect(product.location).toBeUndefined();
+    expect(product.quantity).toBeUndefined();
+  });
 });

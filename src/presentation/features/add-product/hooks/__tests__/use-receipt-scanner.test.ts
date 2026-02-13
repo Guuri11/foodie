@@ -25,7 +25,9 @@ describe('useReceiptScanner', () => {
     mockUseUseCases.mockReturnValue({
       getAllProducts: { execute: mockGetAllProductsExecute },
       addProduct: { execute: mockAddProductExecute },
+      updateProduct: { execute: jest.fn() },
       scanReceipt: { execute: mockScanReceiptExecute },
+      identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
     });
 
     useProductStore.setState({
@@ -38,6 +40,7 @@ describe('useReceiptScanner', () => {
     useProductStore.getState().initialize({
       getAllProducts: { execute: mockGetAllProductsExecute },
       addProduct: { execute: mockAddProductExecute },
+      updateProduct: { execute: jest.fn() },
     });
   });
 
