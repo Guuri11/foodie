@@ -22,15 +22,11 @@ import { UpdateProductStatusUseCaseImpl } from '@application/usecases/product/up
 import { GetSuggestionsUseCaseImpl } from '@application/usecases/suggestion/get-suggestions';
 
 import { ConsoleLogger } from '@infrastructure/logger/console-logger';
-import { ProductRepositoryMemory } from '@infrastructure/repositories/product/product-repository-memory';
-import { ExpiryEstimatorOpenAI } from '@infrastructure/services/product/expiry-estimator-openai';
-import { ExpiryEstimatorStub } from '@infrastructure/services/product/expiry-estimator-stub';
-import { ProductIdentifierOpenAI } from '@infrastructure/services/product/product-identifier-openai';
-import { ProductIdentifierStub } from '@infrastructure/services/product/product-identifier-stub';
-import { ReceiptScannerOpenAI } from '@infrastructure/services/product/receipt-scanner-openai';
-import { ReceiptScannerStub } from '@infrastructure/services/product/receipt-scanner-stub';
-import { SuggestionGeneratorOpenAI } from '@infrastructure/services/suggestion/suggestion-generator-openai';
-import { SuggestionGeneratorStub } from '@infrastructure/services/suggestion/suggestion-generator-stub';
+import { ProductRepositoryHttp } from '@infrastructure/repositories/product/product-repository-http';
+import { ExpiryEstimatorBackend } from '@infrastructure/services/product/expiry-estimator-backend';
+import { ProductIdentifierBackend } from '@infrastructure/services/product/product-identifier-backend';
+import { ReceiptScannerBackend } from '@infrastructure/services/product/receipt-scanner-backend';
+import { SuggestionGeneratorBackend } from '@infrastructure/services/suggestion/suggestion-generator-backend';
 
 export interface UseCases {
   getAllProducts: GetAllProductsUseCase;
@@ -49,29 +45,14 @@ const UseCaseContext = createContext<UseCases | null>(null);
 export function UseCaseProvider({ children }: { children: ReactNode }) {
   const useCases = useMemo<UseCases>(() => {
     const logger = new ConsoleLogger();
-    const productRepository = new ProductRepositoryMemory();
+    const apiBaseUrl =
+      (Constants.expoConfig?.extra?.apiBaseUrl as string) ?? 'http://localhost:8080';
+    const productRepository = new ProductRepositoryHttp(apiBaseUrl);
 
-    const openaiApiKey = Constants.expoConfig?.extra?.openaiApiKey as string | undefined;
-
-    const receiptScanner =
-      openaiApiKey && openaiApiKey.length > 0
-        ? new ReceiptScannerOpenAI(openaiApiKey)
-        : new ReceiptScannerStub();
-
-    const productIdentifier =
-      openaiApiKey && openaiApiKey.length > 0
-        ? new ProductIdentifierOpenAI(openaiApiKey)
-        : new ProductIdentifierStub();
-
-    const expiryEstimator =
-      openaiApiKey && openaiApiKey.length > 0
-        ? new ExpiryEstimatorOpenAI(openaiApiKey)
-        : new ExpiryEstimatorStub();
-
-    const suggestionGenerator =
-      openaiApiKey && openaiApiKey.length > 0
-        ? new SuggestionGeneratorOpenAI(openaiApiKey, logger)
-        : new SuggestionGeneratorStub();
+    const receiptScanner = new ReceiptScannerBackend(apiBaseUrl);
+    const productIdentifier = new ProductIdentifierBackend(apiBaseUrl);
+    const expiryEstimator = new ExpiryEstimatorBackend(apiBaseUrl);
+    const suggestionGenerator = new SuggestionGeneratorBackend(apiBaseUrl);
 
     // Create EstimateExpiryUseCase first (needed by other use cases)
     const estimateExpiry = new EstimateExpiryUseCaseImpl(
@@ -93,11 +74,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
       estimateExpiry,
       scanReceipt: new ScanReceiptUseCaseImpl(receiptScanner, logger),
       identifyProduct: new IdentifyProductUseCaseImpl(productIdentifier, logger),
-      getSuggestions: new GetSuggestionsUseCaseImpl(
-        productRepository,
-        suggestionGenerator,
-        logger
-      ),
+      getSuggestions: new GetSuggestionsUseCaseImpl(productRepository, suggestionGenerator, logger),
     };
   }, []);
 

@@ -130,7 +130,7 @@ export class SuggestionGeneratorStub implements SuggestionGeneratorService {
     const matches = this.findMatchingRecipes(usableProducts);
 
     // Sort by urgency (recipes using expiring products first)
-    const sorted = this.sortByUrgency(matches, usableProducts);
+    const sorted = this.sortByUrgency(matches);
 
     // Limit results
     return sorted.slice(0, limit);
