@@ -32,6 +32,11 @@ describe('useReceiptScanner', () => {
       scanReceipt: { execute: mockScanReceiptExecute },
       identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
       getSuggestions: { execute: jest.fn() },
+      getShoppingItems: { execute: jest.fn() },
+      addShoppingItem: { execute: jest.fn() },
+      toggleShoppingItem: { execute: jest.fn() },
+      deleteShoppingItem: { execute: jest.fn() },
+      clearBoughtItems: { execute: jest.fn() },
     });
 
     useProductStore.setState({

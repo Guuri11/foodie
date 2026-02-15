@@ -24,7 +24,8 @@
     },
     "shopping_list": {
       "title": "Lista de compra",
-      "empty": "Cuando algo se acabe, aparecerá aquí"
+      "empty": "Cuando algo se acabe, aparecerá aquí",
+      "more": "{{count}} más..."
     }
   },
   "add_product": {
@@ -100,6 +101,14 @@
     "filter_all": "Todos",
     "empty": "No hay productos",
     "empty_filtered": "No hay productos con este estado"
+  },
+  "shopping_list": {
+    "title": "Lista de compra",
+    "empty": "Tu lista está vacía",
+    "input_placeholder": "Añadir algo...",
+    "clear_bought": "Limpiar comprados",
+    "bought_section": "Comprados",
+    "share_title": "Lista de compra"
   },
   "suggestion": {
     "loading": "Buscando ideas...",

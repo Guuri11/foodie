@@ -1,23 +1,5 @@
-import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import { useRouter } from 'expo-router';
-
-import { Button } from '~/shared/ui/button';
-import { Text } from '~/shared/ui/text';
+import { ShoppingListScreen } from '~/features/shopping-list/screens/shopping-list-screen';
 
 export default function ShoppingListRoute() {
-  const router = useRouter();
-  const { t } = useTranslation();
-
-  return (
-    <View className="flex-1 items-center justify-center bg-background p-8">
-      <Text variant="h3">{t('dashboard.shopping_list.title')}</Text>
-      <Text variant="muted" className="mt-4">
-        Coming soon
-      </Text>
-      <Button className="mt-8" onPress={() => router.back()}>
-        <Text>Back</Text>
-      </Button>
-    </View>
-  );
+  return <ShoppingListScreen />;
 }

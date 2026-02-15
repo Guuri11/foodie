@@ -24,7 +24,8 @@
     },
     "shopping_list": {
       "title": "Shopping list",
-      "empty": "When something runs out, it will appear here"
+      "empty": "When something runs out, it will appear here",
+      "more": "{{count}} more..."
     }
   },
   "add_product": {
@@ -100,6 +101,14 @@
     "filter_all": "All",
     "empty": "No products yet",
     "empty_filtered": "No products with this status"
+  },
+  "shopping_list": {
+    "title": "Shopping list",
+    "empty": "Your list is empty",
+    "input_placeholder": "Add something...",
+    "clear_bought": "Clear bought",
+    "bought_section": "Bought",
+    "share_title": "Shopping list"
   },
   "suggestion": {
     "loading": "Getting ideas...",

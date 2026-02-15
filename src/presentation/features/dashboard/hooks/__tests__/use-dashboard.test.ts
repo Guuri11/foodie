@@ -53,6 +53,11 @@ describe('useDashboard', () => {
       scanReceipt: { execute: jest.fn() },
       identifyProduct: { executeByImage: jest.fn(), executeByBarcode: jest.fn() },
       getSuggestions: { execute: jest.fn() },
+      getShoppingItems: { execute: jest.fn() },
+      addShoppingItem: { execute: jest.fn() },
+      toggleShoppingItem: { execute: jest.fn() },
+      deleteShoppingItem: { execute: jest.fn() },
+      clearBoughtItems: { execute: jest.fn() },
     });
   });
 
