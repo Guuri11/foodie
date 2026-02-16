@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Camera, X } from 'lucide-react-native';
 
@@ -53,7 +53,7 @@ export function CameraCapture({ onCapture, onClose }: CameraCaptureProps) {
 
   return (
     <View className="flex-1 bg-black">
-      <CameraView ref={cameraRef} className="flex-1" facing="back" />
+      <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing="back" />
 
       <View className="absolute left-4 top-4 z-10">
         <Button variant="ghost" size="icon" onPress={onClose}>

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { type BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
 import { Camera, Receipt, X } from 'lucide-react-native';
 
@@ -80,7 +80,7 @@ export function ProductCamera({
     <View className="flex-1 bg-black">
       <CameraView
         ref={cameraRef}
-        className="flex-1"
+        style={StyleSheet.absoluteFill}
         facing="back"
         barcodeScannerSettings={{
           barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'code128', 'code39'],
