@@ -3,8 +3,6 @@ import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Plus } from 'lucide-react-native';
 
-import type { Suggestion } from '@domain/suggestion/model';
-
 import { SafeScreen } from '~/shared/components/safe-screen';
 import { Button } from '~/shared/ui/button';
 import { Text } from '~/shared/ui/text';
@@ -16,10 +14,6 @@ export function MobileSuggestionsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { suggestions, loading, error } = useSuggestions();
-
-  const handleSuggestionPress = (suggestion: Suggestion) => {
-    router.push(`/modal/suggestion/${suggestion.id}` as never);
-  };
 
   const handleAddPress = () => {
     router.push('/modal/add-product' as never);
@@ -71,11 +65,7 @@ export function MobileSuggestionsScreen() {
             {t('dashboard.suggestions.title')}
           </Text>
           {suggestions.map((suggestion) => (
-            <SuggestionCard
-              key={suggestion.id}
-              suggestion={suggestion}
-              onPress={handleSuggestionPress}
-            />
+            <SuggestionCard key={suggestion.id} suggestion={suggestion} />
           ))}
         </ScrollView>
       )}

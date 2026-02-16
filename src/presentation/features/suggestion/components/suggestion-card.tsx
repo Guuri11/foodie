@@ -23,17 +23,15 @@ import { TimeBadge } from './time-badge';
 
 interface SuggestionCardProps {
   suggestion: Suggestion;
-  onPress: (suggestion: Suggestion) => void;
   className?: string;
 }
 
-export function SuggestionCard({ suggestion, onPress, className }: SuggestionCardProps) {
+export function SuggestionCard({ suggestion, className }: SuggestionCardProps) {
   const { t } = useTranslation();
   const urgent = hasUrgentIngredients(suggestion);
 
   return (
     <Pressable
-      onPress={() => onPress(suggestion)}
       className={cn(
         'mb-3 min-h-[56px] rounded-lg border border-neutral-200 bg-white p-4',
         'active:bg-neutral-50',

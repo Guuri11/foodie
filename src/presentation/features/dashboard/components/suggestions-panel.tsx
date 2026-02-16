@@ -9,9 +9,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';
-import { useRouter } from 'expo-router';
-
-import type { Suggestion } from '@domain/suggestion/model';
 
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/card';
 import { Text } from '~/shared/ui/text';
@@ -20,13 +17,7 @@ import { useSuggestions } from '~/features/suggestion/hooks/use-suggestions';
 
 export function SuggestionsPanel() {
   const { t } = useTranslation();
-  const router = useRouter();
   const { suggestions, loading, error } = useSuggestions();
-
-  const handleSuggestionPress = (suggestion: Suggestion) => {
-    // Type cast needed until Expo Router regenerates types
-    router.push(`/modal/suggestion/${suggestion.id}` as never);
-  };
 
   if (loading) {
     return (
@@ -80,11 +71,7 @@ export function SuggestionsPanel() {
       <CardContent>
         <View>
           {suggestions.map((suggestion) => (
-            <SuggestionCard
-              key={suggestion.id}
-              suggestion={suggestion}
-              onPress={handleSuggestionPress}
-            />
+            <SuggestionCard key={suggestion.id} suggestion={suggestion} />
           ))}
         </View>
       </CardContent>

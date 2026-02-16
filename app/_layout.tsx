@@ -89,7 +89,6 @@ export default function RootLayout() {
                   options={{ presentation: 'fullScreenModal' }}
                 />
                 <Stack.Screen name="modal/product/[id]" options={{ presentation: 'modal' }} />
-                <Stack.Screen name="modal/suggestion/[id]" options={{ presentation: 'modal' }} />
               </Stack>
             </View>
             <PortalHost />
