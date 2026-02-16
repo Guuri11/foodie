@@ -2,9 +2,15 @@ import { act, renderHook } from '@testing-library/react-native';
 
 import type { Product } from '@domain/product/model';
 
+import { useUseCases } from '~/core/providers/use-case-provider';
+
 import { useProductStore } from '~/lib/stores/product-store';
 
 import { usePantry } from '../use-pantry';
+
+jest.mock('~/core/providers/use-case-provider', () => ({
+  useUseCases: jest.fn(),
+}));
 
 describe('usePantry', () => {
   const now = new Date();
@@ -19,6 +25,12 @@ describe('usePantry', () => {
   }
 
   beforeEach(() => {
+    (useUseCases as jest.Mock).mockReturnValue({
+      getAllProducts: { execute: jest.fn().mockResolvedValue({ active: [], totalCount: 0 }) },
+      addProduct: { execute: jest.fn() },
+      updateProduct: { execute: jest.fn() },
+    });
+
     useProductStore.setState({
       products: [
         makeProduct({ id: '1', name: 'Rice', status: 'new' }),
