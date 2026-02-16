@@ -53,10 +53,7 @@ export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
     return fromApiResponse(dto);
   }
 
-  async update(
-    id: string,
-    changes: { name?: string; isBought?: boolean }
-  ): Promise<ShoppingItem> {
+  async update(id: string, changes: { name?: string; isBought?: boolean }): Promise<ShoppingItem> {
     const response = await fetch(`${this.baseUrl}/shopping-items/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

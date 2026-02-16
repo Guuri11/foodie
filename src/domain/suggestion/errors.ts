@@ -1,6 +1,6 @@
 /**
  * Suggestion Domain Errors
- * 
+ *
  * Defines error types for the suggestion domain.
  * Uses code-style identifiers as per architecture guidelines.
  */
@@ -30,9 +30,6 @@ export class SuggestionError extends Error {
   }
 
   static InvalidSuggestion(reason: string): SuggestionError {
-    return new SuggestionError(
-      `Invalid suggestion: ${reason}`,
-      'invalid_suggestion'
-    );
+    return new SuggestionError(`Invalid suggestion: ${reason}`, 'invalid_suggestion');
   }
 }

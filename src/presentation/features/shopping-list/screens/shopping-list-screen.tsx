@@ -15,15 +15,8 @@ import { useShoppingList } from '../hooks/use-shopping-list';
 
 export function ShoppingListScreen() {
   const { t } = useTranslation();
-  const {
-    pendingItems,
-    boughtItems,
-    loading,
-    addItem,
-    toggleItem,
-    deleteItem,
-    clearBought,
-  } = useShoppingList();
+  const { pendingItems, boughtItems, loading, addItem, toggleItem, deleteItem, clearBought } =
+    useShoppingList();
   const { shareList } = useShareShoppingList(pendingItems);
   const [inputValue, setInputValue] = useState('');
 

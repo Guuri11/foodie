@@ -1,6 +1,6 @@
 /**
  * Suggestion Domain Model
- * 
+ *
  * Represents a cooking suggestion generated from available pantry products.
  * Part of Milestone 3: "What should I eat now?" - the star screen.
  */
@@ -25,7 +25,7 @@ export interface SuggestionIngredient {
 
 /**
  * Cooking suggestion entity
- * 
+ *
  * Business rules:
  * - Must have a clear, concrete title (not generic like "Chicken recipes")
  * - Should prioritize urgent (expiring) ingredients
@@ -45,7 +45,7 @@ export interface Suggestion {
 
 /**
  * Create a new Suggestion
- * 
+ *
  * @throws Error if title is empty
  * @throws Error if no ingredients provided
  */
@@ -70,9 +70,7 @@ export function createSuggestion(params: {
   }
 
   // Extract urgent ingredient IDs
-  const urgentIngredients = ingredients
-    .filter(ing => ing.isUrgent)
-    .map(ing => ing.productId);
+  const urgentIngredients = ingredients.filter((ing) => ing.isUrgent).map((ing) => ing.productId);
 
   return {
     id,

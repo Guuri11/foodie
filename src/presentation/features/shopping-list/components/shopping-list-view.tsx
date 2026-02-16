@@ -74,14 +74,9 @@ function ShoppingItemRow({
 }) {
   return (
     <View className="flex-row items-center px-4 py-3">
-      <Pressable
-        className="min-h-[44px] flex-1 flex-row items-center gap-3"
-        onPress={onToggle}
-      >
+      <Pressable className="min-h-[44px] flex-1 flex-row items-center gap-3" onPress={onToggle}>
         <Checkbox checked={item.isBought} onCheckedChange={onToggle} />
-        <Text
-          className={item.isBought ? 'flex-1 text-muted-foreground line-through' : 'flex-1'}
-        >
+        <Text className={item.isBought ? 'flex-1 text-muted-foreground line-through' : 'flex-1'}>
           {item.name}
         </Text>
       </Pressable>

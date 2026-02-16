@@ -1,6 +1,6 @@
 /**
  * Suggestion Domain Model Tests
- * 
+ *
  * Testing business rules and validation for Suggestion entity.
  * Following TDD approach: tests written first.
  */

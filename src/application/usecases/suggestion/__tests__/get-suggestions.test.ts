@@ -1,6 +1,6 @@
 /**
  * GetSuggestionsUseCase Tests
- * 
+ *
  * Testing the application layer orchestration for getting cooking suggestions.
  * Following TDD: tests written before implementation.
  */
@@ -21,11 +21,7 @@ describe('GetSuggestionsUseCase', () => {
   let useCase: GetSuggestionsUseCase;
 
   // Helper to create a product
-  const createProduct = (
-    id: string,
-    name: string,
-    daysUntilExpiry: number | null
-  ): Product => ({
+  const createProduct = (id: string, name: string, daysUntilExpiry: number | null): Product => ({
     id,
     name,
     status: daysUntilExpiry !== null && daysUntilExpiry <= 2 ? 'opened' : 'new',
@@ -102,10 +98,7 @@ describe('GetSuggestionsUseCase', () => {
       // Then we receive suggestions
       expect(result).toEqual(suggestions);
       expect(mockProductRepository.getActiveProducts).toHaveBeenCalledTimes(1);
-      expect(mockSuggestionGenerator.generate).toHaveBeenCalledWith(
-        expect.any(Array),
-        5
-      );
+      expect(mockSuggestionGenerator.generate).toHaveBeenCalledWith(expect.any(Array), 5);
     });
 
     it('should_sort_products_by_urgency_before_generating_suggestions', async () => {
@@ -120,17 +113,14 @@ describe('GetSuggestionsUseCase', () => {
         mediumProduct,
       ]);
 
-      mockSuggestionGenerator.generate.mockResolvedValue([
-        createSuggestion('sug-1', 'Quick meal'),
-      ]);
+      mockSuggestionGenerator.generate.mockResolvedValue([createSuggestion('sug-1', 'Quick meal')]);
 
       // When we request suggestions
       await useCase.execute(5);
 
       // Then products are sorted by urgency before generation
-      const calledProducts =
-        mockSuggestionGenerator.generate.mock.calls[0][0] as Product[];
-      
+      const calledProducts = mockSuggestionGenerator.generate.mock.calls[0][0] as Product[];
+
       // First product should be the most urgent (expiring)
       expect(calledProducts[0].id).toBe('2'); // Chicken (1 day)
     });
@@ -178,10 +168,9 @@ describe('GetSuggestionsUseCase', () => {
       // Then we receive empty array
       expect(result).toEqual([]);
       expect(mockSuggestionGenerator.generate).not.toHaveBeenCalled();
-      expect(mockLogger.info).toHaveBeenCalledWith(
-        'Not enough products for suggestions',
-        { count: 1 }
-      );
+      expect(mockLogger.info).toHaveBeenCalledWith('Not enough products for suggestions', {
+        count: 1,
+      });
     });
 
     it('should_return_empty_array_when_no_products_exist', async () => {
@@ -205,28 +194,20 @@ describe('GetSuggestionsUseCase', () => {
       ];
       mockProductRepository.getActiveProducts.mockResolvedValue(products);
 
-      mockSuggestionGenerator.generate.mockResolvedValue([
-        createSuggestion('sug-1', 'Recipe'),
-      ]);
+      mockSuggestionGenerator.generate.mockResolvedValue([createSuggestion('sug-1', 'Recipe')]);
 
       // When we request suggestions without specifying limit
       await useCase.execute();
 
       // Then default limit of 5 is used
-      expect(mockSuggestionGenerator.generate).toHaveBeenCalledWith(
-        expect.any(Array),
-        5
-      );
+      expect(mockSuggestionGenerator.generate).toHaveBeenCalledWith(expect.any(Array), 5);
     });
   });
 
   describe('Logging', () => {
     it('should_log_operation_when_getting_suggestions', async () => {
       // Given we have products
-      const products = [
-        createProduct('1', 'Chicken', 1),
-        createProduct('2', 'Rice', 10),
-      ];
+      const products = [createProduct('1', 'Chicken', 1), createProduct('2', 'Rice', 10)];
       mockProductRepository.getActiveProducts.mockResolvedValue(products);
       mockSuggestionGenerator.generate.mockResolvedValue([
         createSuggestion('sug-1', 'Arroz con pollo'),
@@ -243,18 +224,15 @@ describe('GetSuggestionsUseCase', () => {
 
     it('should_log_when_not_enough_products_for_suggestions', async () => {
       // Given we have insufficient products
-      mockProductRepository.getActiveProducts.mockResolvedValue([
-        createProduct('1', 'Salt', null),
-      ]);
+      mockProductRepository.getActiveProducts.mockResolvedValue([createProduct('1', 'Salt', null)]);
 
       // When we request suggestions
       await useCase.execute(5);
 
       // Then it logs the situation
-      expect(mockLogger.info).toHaveBeenCalledWith(
-        'Not enough products for suggestions',
-        { count: 1 }
-      );
+      expect(mockLogger.info).toHaveBeenCalledWith('Not enough products for suggestions', {
+        count: 1,
+      });
     });
   });
 
@@ -271,10 +249,7 @@ describe('GetSuggestionsUseCase', () => {
 
     it('should_propagate_error_when_generator_fails', async () => {
       // Given we have products but generator fails
-      const products = [
-        createProduct('1', 'Chicken', 1),
-        createProduct('2', 'Rice', 10),
-      ];
+      const products = [createProduct('1', 'Chicken', 1), createProduct('2', 'Rice', 10)];
       mockProductRepository.getActiveProducts.mockResolvedValue(products);
 
       const error = new Error('AI service unavailable');

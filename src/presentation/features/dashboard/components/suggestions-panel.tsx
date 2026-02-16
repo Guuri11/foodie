@@ -1,9 +1,9 @@
 /**
  * SuggestionsPanel Component
- * 
+ *
  * Main suggestions panel in the dashboard (60% left panel).
  * Shows 3-5 cooking suggestions based on pantry products.
- * 
+ *
  * Part of Milestone 3: H3.1, H3.2, H3.3, H3.4
  */
 

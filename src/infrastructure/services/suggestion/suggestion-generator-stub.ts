@@ -1,9 +1,9 @@
 /**
  * Suggestion Generator Stub
- * 
+ *
  * Local algorithm-based suggestion generator.
  * Used as fallback when AI service is unavailable or no API key configured.
- * 
+ *
  * Strategy:
  * - Match products against predefined recipe templates
  * - Prioritize recipes using urgent (expiring) ingredients
@@ -162,9 +162,7 @@ export class SuggestionGeneratorStub implements SuggestionGeneratorService {
     const matched: Product[] = [];
 
     for (const keyword of pattern) {
-      const product = products.find((p) =>
-        p.name.toLowerCase().includes(keyword.toLowerCase())
-      );
+      const product = products.find((p) => p.name.toLowerCase().includes(keyword.toLowerCase()));
 
       if (product) {
         matched.push(product);
@@ -181,14 +179,12 @@ export class SuggestionGeneratorStub implements SuggestionGeneratorService {
     return matches
       .map(({ template, matchedProducts }) => {
         // Create suggestion with urgency info
-        const ingredients: SuggestionIngredient[] = matchedProducts.map(
-          (product) => ({
-            productId: product.id,
-            productName: product.name,
-            quantity: product.quantity,
-            isUrgent: isExpiringSoon(product),
-          })
-        );
+        const ingredients: SuggestionIngredient[] = matchedProducts.map((product) => ({
+          productId: product.id,
+          productName: product.name,
+          quantity: product.quantity,
+          isUrgent: isExpiringSoon(product),
+        }));
 
         const urgentCount = ingredients.filter((ing) => ing.isUrgent).length;
 

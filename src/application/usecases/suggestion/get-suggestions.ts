@@ -1,12 +1,12 @@
 /**
  * GetSuggestionsUseCase Implementation
- * 
+ *
  * Orchestrates the process of generating cooking suggestions:
  * 1. Fetch active products from pantry
  * 2. Sort by urgency (expiring products first)
  * 3. Generate suggestions via AI or algorithm
  * 4. Limit to max 5 suggestions
- * 
+ *
  * Part of Milestone 3: H3.1, H3.2, H3.3, H3.4
  */
 
@@ -42,10 +42,7 @@ export class GetSuggestionsUseCaseImpl implements GetSuggestionsUseCase {
     const sortedProducts = sortByUrgency(products);
 
     // Generate suggestions via service (AI or algorithm)
-    const suggestions = await this.suggestionGenerator.generate(
-      sortedProducts,
-      limit
-    );
+    const suggestions = await this.suggestionGenerator.generate(sortedProducts, limit);
 
     // Business rule: return max 3-5 suggestions - H3.1
     return suggestions.slice(0, limit);

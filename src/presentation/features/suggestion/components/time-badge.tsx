@@ -1,6 +1,6 @@
 /**
  * TimeBadge Component
- * 
+ *
  * Displays time estimate for a suggestion.
  * Part of H3.3: Time estimate display.
  */
@@ -29,17 +29,9 @@ export function TimeBadge({ time, className }: TimeBadgeProps) {
   }[time];
 
   return (
-    <View
-      className={cn(
-        'flex-row items-center px-2 py-1 rounded-full',
-        colorClass,
-        className
-      )}
-    >
+    <View className={cn('flex-row items-center rounded-full px-2 py-1', colorClass, className)}>
       <Clock size={14} className="mr-1" color="currentColor" />
-      <Text className="text-sm font-medium">
-        {t(`suggestion.time_${time}`)}
-      </Text>
+      <Text className="text-sm font-medium">{t(`suggestion.time_${time}`)}</Text>
     </View>
   );
 }

@@ -1,13 +1,13 @@
 /**
  * useSuggestions Hook
- * 
+ *
  * Hook to fetch and manage cooking suggestions.
  * Uses DI to access GetSuggestionsUseCase.
- * 
+ *
  * Part of Milestone 3: H3.1, H3.2, H3.3, H3.4
  */
 
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { Suggestion } from '@domain/suggestion/model';
 

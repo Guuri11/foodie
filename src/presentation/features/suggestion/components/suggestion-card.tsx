@@ -1,17 +1,17 @@
 /**
  * SuggestionCard Component
- * 
+ *
  * Displays a single suggestion card with:
  * - Title
  * - Time estimate badge
  * - Urgent ingredient indicator
- * 
+ *
  * Part of H3.1, H3.2, H3.3: Display suggestions with urgency and time.
  */
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable,Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { AlertCircle } from 'lucide-react-native';
 
 import type { Suggestion } from '@domain/suggestion/model';
@@ -27,11 +27,7 @@ interface SuggestionCardProps {
   className?: string;
 }
 
-export function SuggestionCard({
-  suggestion,
-  onPress,
-  className,
-}: SuggestionCardProps) {
+export function SuggestionCard({ suggestion, onPress, className }: SuggestionCardProps) {
   const { t } = useTranslation();
   const urgent = hasUrgentIngredients(suggestion);
 
@@ -39,28 +35,24 @@ export function SuggestionCard({
     <Pressable
       onPress={() => onPress(suggestion)}
       className={cn(
-        'min-h-[56px] p-4 mb-3 bg-white rounded-lg border border-neutral-200',
+        'mb-3 min-h-[56px] rounded-lg border border-neutral-200 bg-white p-4',
         'active:bg-neutral-50',
         className
       )}
     >
-      <View className="flex-row items-start justify-between mb-2">
-        <Text className="text-lg font-semibold flex-1 mr-3">
-          {suggestion.title}
-        </Text>
+      <View className="mb-2 flex-row items-start justify-between">
+        <Text className="mr-3 flex-1 text-lg font-semibold">{suggestion.title}</Text>
         <TimeBadge time={suggestion.estimatedTime} />
       </View>
 
       {suggestion.description && (
-        <Text className="text-sm text-neutral-600 mb-2">
-          {suggestion.description}
-        </Text>
+        <Text className="mb-2 text-sm text-neutral-600">{suggestion.description}</Text>
       )}
 
       {urgent && (
-        <View className="flex-row items-center mt-1">
+        <View className="mt-1 flex-row items-center">
           <AlertCircle size={16} color="#ea580c" className="mr-1" />
-          <Text className="text-sm text-orange-600 font-medium">
+          <Text className="text-sm font-medium text-orange-600">
             {t('suggestion.urgent_ingredient')}
           </Text>
         </View>

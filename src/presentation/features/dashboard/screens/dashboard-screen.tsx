@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import { useKeepAwake } from 'expo-keep-awake';
 
 import { SafeScreen } from '~/shared/components/safe-screen';
