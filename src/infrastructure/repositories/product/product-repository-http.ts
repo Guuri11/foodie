@@ -71,6 +71,7 @@ export class ProductRepositoryHttp implements ProductRepository {
   async create(params: CreateProductParams): Promise<Product> {
     const body = {
       name: params.name,
+      status: 'new' as const,
       location: params.location ?? null,
       quantity: params.quantity ?? null,
     };
