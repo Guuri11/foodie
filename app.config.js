@@ -3,7 +3,7 @@ module.exports = {
     name: 'foodie',
     slug: 'foodie',
     version: '1.0.0',
-    orientation: 'landscape',
+    orientation: 'default',
     icon: './src/presentation/assets/images/icon.png',
     scheme: 'foodie',
     userInterfaceStyle: 'automatic',
@@ -57,7 +57,7 @@ module.exports = {
       reactCompiler: true,
     },
     extra: {
-      apiBaseUrl: process.env.API_BASE_URL ?? 'http://localhost:8080',
+      apiBaseUrl: process.env.API_BASE_URL ?? 'http://192.168.68.54:8080',
     },
   },
 };

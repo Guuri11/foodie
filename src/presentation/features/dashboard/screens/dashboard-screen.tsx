@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { useKeepAwake } from 'expo-keep-awake';
 
+import { SafeScreen } from '~/shared/components/safe-screen';
 import { Text } from '~/shared/ui/text';
 
 import { DashboardHeader } from '../components/dashboard-header';
@@ -15,33 +16,33 @@ export function DashboardScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-background">
+      <SafeScreen className="items-center justify-center">
         <Text variant="muted">...</Text>
-      </View>
+      </SafeScreen>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center bg-background p-8">
+      <SafeScreen className="items-center justify-center p-8">
         <Text variant="h4" className="text-destructive">
           Error
         </Text>
         <Text variant="muted" className="mt-2 text-center">
           {error.message}
         </Text>
-      </View>
+      </SafeScreen>
     );
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeScreen>
       <DashboardHeader />
       {hasActiveProducts ? (
         <DashboardLayout products={products} />
       ) : (
         <EmptyDashboard allFinished={allFinished} />
       )}
-    </View>
+    </SafeScreen>
   );
 }

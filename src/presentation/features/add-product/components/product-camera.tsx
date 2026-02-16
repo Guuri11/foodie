@@ -86,37 +86,37 @@ export function ProductCamera({
           barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'code128', 'code39'],
         }}
         onBarcodeScanned={handleBarcodeScanned}
-      >
-        <View className="absolute left-4 top-4 z-10">
-          <Button variant="ghost" size="icon" onPress={onClose}>
-            <X size={24} color="white" />
-          </Button>
-        </View>
+      />
 
-        <View className="absolute left-0 right-0 top-16 items-center">
-          <Text className="text-center text-sm text-white/80">
-            {t('add_product.product_scan_hint')}
-          </Text>
-        </View>
+      <View className="absolute left-4 top-4 z-10">
+        <Button variant="ghost" size="icon" onPress={onClose}>
+          <X size={24} color="white" />
+        </Button>
+      </View>
 
-        <View className="absolute bottom-8 left-0 right-0 items-center gap-4">
-          <Pressable
-            className="h-[72px] w-[72px] items-center justify-center rounded-full border-4 border-white bg-white/30 active:bg-white/50"
-            onPress={handleCapture}
-            accessibilityLabel={t('add_product.scan_button')}
-          >
-            <View className="h-[56px] w-[56px] rounded-full bg-white" />
-          </Pressable>
+      <View className="absolute left-0 right-0 top-16 items-center">
+        <Text className="text-center text-sm text-white/80">
+          {t('add_product.product_scan_hint')}
+        </Text>
+      </View>
 
-          <Pressable
-            className="flex-row items-center gap-2 rounded-full bg-black/40 px-4 py-2 active:bg-black/60"
-            onPress={onSwitchToReceipt}
-          >
-            <Receipt size={16} color="white" />
-            <Text className="text-sm text-white">{t('add_product.switch_to_receipt')}</Text>
-          </Pressable>
-        </View>
-      </CameraView>
+      <View className="absolute bottom-8 left-0 right-0 items-center gap-4">
+        <Pressable
+          className="h-[72px] w-[72px] items-center justify-center rounded-full border-4 border-white bg-white/30 active:bg-white/50"
+          onPress={handleCapture}
+          accessibilityLabel={t('add_product.scan_button')}
+        >
+          <View className="h-[56px] w-[56px] rounded-full bg-white" />
+        </Pressable>
+
+        <Pressable
+          className="flex-row items-center gap-2 rounded-full bg-black/40 px-4 py-2 active:bg-black/60"
+          onPress={onSwitchToReceipt}
+        >
+          <Receipt size={16} color="white" />
+          <Text className="text-sm text-white">{t('add_product.switch_to_receipt')}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }

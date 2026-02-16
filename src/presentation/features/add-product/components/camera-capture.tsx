@@ -53,23 +53,23 @@ export function CameraCapture({ onCapture, onClose }: CameraCaptureProps) {
 
   return (
     <View className="flex-1 bg-black">
-      <CameraView ref={cameraRef} className="flex-1" facing="back">
-        <View className="absolute left-4 top-4 z-10">
-          <Button variant="ghost" size="icon" onPress={onClose}>
-            <X size={24} color="white" />
-          </Button>
-        </View>
+      <CameraView ref={cameraRef} className="flex-1" facing="back" />
 
-        <View className="absolute bottom-8 left-0 right-0 items-center">
-          <Pressable
-            className="h-[72px] w-[72px] items-center justify-center rounded-full border-4 border-white bg-white/30 active:bg-white/50"
-            onPress={handleCapture}
-            accessibilityLabel={t('add_product.scan_button')}
-          >
-            <View className="h-[56px] w-[56px] rounded-full bg-white" />
-          </Pressable>
-        </View>
-      </CameraView>
+      <View className="absolute left-4 top-4 z-10">
+        <Button variant="ghost" size="icon" onPress={onClose}>
+          <X size={24} color="white" />
+        </Button>
+      </View>
+
+      <View className="absolute bottom-8 left-0 right-0 items-center">
+        <Pressable
+          className="h-[72px] w-[72px] items-center justify-center rounded-full border-4 border-white bg-white/30 active:bg-white/50"
+          onPress={handleCapture}
+          accessibilityLabel={t('add_product.scan_button')}
+        >
+          <View className="h-[56px] w-[56px] rounded-full bg-white" />
+        </Pressable>
+      </View>
     </View>
   );
 }

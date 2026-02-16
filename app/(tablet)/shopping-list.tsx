@@ -1,5 +1,5 @@
 import { ShoppingListScreen } from '~/features/shopping-list/screens/shopping-list-screen';
 
-export default function ShoppingListRoute() {
+export default function TabletShoppingListRoute() {
   return <ShoppingListScreen />;
 }

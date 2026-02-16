@@ -80,7 +80,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
 
     return {
       getAllProducts: new GetAllProductsUseCaseImpl(productRepository, logger),
-      addProduct: new AddProductUseCaseImpl(productRepository, logger, estimateExpiry),
+      addProduct: new AddProductUseCaseImpl(productRepository, logger),
       updateProduct: new UpdateProductUseCaseImpl(productRepository, logger, estimateExpiry),
       updateProductStatus: new UpdateProductStatusUseCaseImpl(
         productRepository,

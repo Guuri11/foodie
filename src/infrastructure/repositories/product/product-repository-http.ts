@@ -1,5 +1,5 @@
 import type { Product } from '@domain/product/model';
-import type { ProductRepository } from '@domain/product/repository';
+import type { CreateProductParams, ProductRepository } from '@domain/product/repository';
 import type { ProductStatus } from '@domain/product/value-objects';
 
 interface ProductResponseDTO {
@@ -68,30 +68,38 @@ export class ProductRepositoryHttp implements ProductRepository {
     return fromApiResponse(dto);
   }
 
+  async create(params: CreateProductParams): Promise<Product> {
+    const body = {
+      name: params.name,
+      location: params.location ?? null,
+      quantity: params.quantity ?? null,
+    };
+
+    const response = await fetch(`${this.baseUrl}/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to create product: ${response.status}`);
+    }
+
+    const dto: ProductResponseDTO = await response.json();
+    return fromApiResponse(dto);
+  }
+
   async save(product: Product): Promise<void> {
     const body = toApiRequest(product);
 
-    // Try to update first (PUT), if 404 then create (POST)
-    const updateResponse = await fetch(`${this.baseUrl}/products/${product.id}`, {
+    const response = await fetch(`${this.baseUrl}/products/${product.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
-    if (updateResponse.status === 404) {
-      const createResponse = await fetch(`${this.baseUrl}/products`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (!createResponse.ok) {
-        throw new Error(`Failed to create product: ${createResponse.status}`);
-      }
-      return;
-    }
-
-    if (!updateResponse.ok) {
-      throw new Error(`Failed to update product: ${updateResponse.status}`);
+    if (!response.ok) {
+      throw new Error(`Failed to update product: ${response.status}`);
     }
   }
 

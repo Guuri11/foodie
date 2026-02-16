@@ -17,6 +17,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 
+import { useIsTablet } from '~/core/hooks/use-device';
 import { UseCaseProvider } from '~/core/providers/use-case-provider';
 
 import { NAV_THEME } from '~/lib/theme';
@@ -27,7 +28,7 @@ import '~/lib/i18n';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from 'expo-router';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -35,6 +36,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { setColorScheme } = useColorScheme();
+  const isTablet = useIsTablet();
 
   const [fontsLoaded] = useFonts({
     NunitoSans_400Regular,
@@ -49,9 +51,13 @@ export default function RootLayout() {
   }, [setColorScheme]);
 
   useEffect(() => {
-    // Lock to landscape orientation for tablet kitchen use
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-  }, []);
+    // Lock orientation based on device type
+    if (isTablet) {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    } else {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    }
+  }, [isTablet]);
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -76,12 +82,14 @@ export default function RootLayout() {
                   contentStyle: { backgroundColor: 'transparent' },
                 }}
               >
-                <Stack.Screen name="index" />
-                <Stack.Screen name="modal/add-product" options={{ presentation: 'modal' }} />
+                <Stack.Screen name="(tablet)" redirect={!isTablet} />
+                <Stack.Screen name="(mobile)" redirect={isTablet} />
+                <Stack.Screen
+                  name="modal/add-product"
+                  options={{ presentation: 'fullScreenModal' }}
+                />
                 <Stack.Screen name="modal/product/[id]" options={{ presentation: 'modal' }} />
                 <Stack.Screen name="modal/suggestion/[id]" options={{ presentation: 'modal' }} />
-                <Stack.Screen name="pantry" />
-                <Stack.Screen name="shopping-list" />
               </Stack>
             </View>
             <PortalHost />

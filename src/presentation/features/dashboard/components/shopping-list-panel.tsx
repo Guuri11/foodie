@@ -5,10 +5,11 @@ import { useRouter } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 
 import { useUseCases } from '~/core/providers/use-case-provider';
-import { useShoppingListStore } from '~/lib/stores/shopping-list-store';
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/card';
 import { Checkbox } from '~/shared/ui/checkbox';
 import { Text } from '~/shared/ui/text';
+
+import { useShoppingListStore } from '~/lib/stores/shopping-list-store';
 
 const MAX_PREVIEW_ITEMS = 4;
 

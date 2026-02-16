@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { Share } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Share } from 'react-native';
 
 import type { ShoppingItem } from '@domain/shopping-item/model';
 

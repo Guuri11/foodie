@@ -1,3 +1,5 @@
+import { SafeScreen } from '~/shared/components/safe-screen';
+
 import { ProductDetailView } from '../components/product-detail-view';
 import { useProductDetail } from '../hooks/use-product-detail';
 
@@ -19,16 +21,18 @@ export function ProductDetailScreen({ productId }: ProductDetailScreenProps) {
   } = useProductDetail(productId);
 
   return (
-    <ProductDetailView
-      product={product}
-      urgencyInfo={urgencyInfo}
-      showOutcomePrompt={showOutcomePrompt}
-      onLocationChange={setLocation}
-      onQuantityChange={setQuantity}
-      onStatusChange={setStatus}
-      onExpiryDateChange={setExpiryDate}
-      onOutcomeSelect={finishWithOutcome}
-      onOutcomeDismiss={dismissOutcomePrompt}
-    />
+    <SafeScreen>
+      <ProductDetailView
+        product={product}
+        urgencyInfo={urgencyInfo}
+        showOutcomePrompt={showOutcomePrompt}
+        onLocationChange={setLocation}
+        onQuantityChange={setQuantity}
+        onStatusChange={setStatus}
+        onExpiryDateChange={setExpiryDate}
+        onOutcomeSelect={finishWithOutcome}
+        onOutcomeDismiss={dismissOutcomePrompt}
+      />
+    </SafeScreen>
   );
 }

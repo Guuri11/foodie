@@ -1,0 +1,1486 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Foodie Backend API",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://0.0.0.0:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Products"
+    },
+    {
+      "name": "ShoppingItems"
+    },
+    {
+      "name": "Suggestions"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health check endpoint",
+        "description": "Returns the current status of the service.\nThis endpoint is public and does not require authentication.\n\n## Use Cases\n- Kubernetes liveness/readiness probes\n- Docker health checks\n- Load balancer health monitoring\n- Infrastructure monitoring tools\n\n## Response\n- `status`: \"healthy\" if service is running\n- `timestamp`: Current server timestamp in ISO 8601 format\n- `version`: Service version from Cargo.toml",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create a new product",
+        "description": "Creates a new product in the kitchen inventory.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "List all active products",
+        "description": "Returns all products that are not in 'finished' status.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get a product by ID",
+        "description": "Returns a single product by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update a product",
+        "description": "Updates an existing product by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete a product",
+        "description": "Permanently removes a product from the inventory.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}/estimate-expiry": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Estimate expiry date for a product",
+        "description": "Uses AI to estimate when a product will expire based on its name,\nstatus, and storage location.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/identify/image": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Identify a product by image",
+        "description": "Uses AI vision to identify a food product from a photo.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/IdentifyByImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIdentificationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/identify/barcode": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Identify a product by barcode",
+        "description": "Looks up a product in the Open Food Facts database using its barcode.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/IdentifyByBarcodeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIdentificationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/scan-receipt": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Scan a receipt image",
+        "description": "Uses AI to extract product names from a supermarket receipt photo.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanReceiptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptScanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/estimate-expiry-date": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Estimate expiry date from product attributes",
+        "description": "Uses AI to estimate when a product will expire based on its name,\nstatus, and storage location. Does not require an existing product in the database.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimateExpiryDateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpiryEstimationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shopping-items": {
+      "get": {
+        "tags": [
+          "ShoppingItems"
+        ],
+        "summary": "List all shopping items",
+        "description": "Returns all shopping list items ordered by creation date.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShoppingItemResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ShoppingItems"
+        ],
+        "summary": "Create a shopping item",
+        "description": "Adds a new item to the shopping list. If a product_id is provided and\nalready exists in the list, returns the existing item.",
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShoppingItemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shopping-items/{id}": {
+      "put": {
+        "tags": [
+          "ShoppingItems"
+        ],
+        "summary": "Update a shopping item",
+        "description": "Updates the name and/or bought status of a shopping item.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShoppingItemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ShoppingItems"
+        ],
+        "summary": "Delete a shopping item",
+        "description": "Permanently removes a shopping item from the list.",
+        "parameters": [
+          {
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shopping-items/bought": {
+      "delete": {
+        "tags": [
+          "ShoppingItems"
+        ],
+        "summary": "Clear bought items",
+        "description": "Removes all shopping items that have been marked as bought.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClearBoughtResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suggestions": {
+      "get": {
+        "tags": [
+          "Suggestions"
+        ],
+        "summary": "Generate cooking suggestions",
+        "description": "Returns AI-generated cooking suggestions based on available pantry products,\nprioritizing ingredients that are expiring soon.",
+        "parameters": [
+          {
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "format": "uint64"
+            },
+            "in": "query",
+            "description": "Maximum number of suggestions to generate (default: 5)",
+            "required": false,
+            "deprecated": false,
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SuggestionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ClearBoughtResponse": {
+        "type": "object",
+        "title": "ClearBoughtResponse",
+        "required": [
+          "count"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "uint64",
+            "description": "Number of items cleared"
+          }
+        }
+      },
+      "ConfidenceDto": {
+        "type": "string",
+        "enum": [
+          "high",
+          "medium",
+          "low",
+          "none"
+        ]
+      },
+      "CreateProductRequest": {
+        "type": "object",
+        "title": "CreateProductRequest",
+        "required": [
+          "name",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product name (cannot be empty)"
+          },
+          "status": {
+            "description": "Product status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatusDto"
+              },
+              {
+                "description": "Product status"
+              }
+            ]
+          },
+          "location": {
+            "description": "Storage location",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductLocationDto"
+              },
+              {
+                "description": "Storage location"
+              }
+            ]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity description"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expiry date"
+          },
+          "estimated_expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated expiry date"
+          },
+          "outcome": {
+            "description": "Product outcome (only valid when status is 'finished')",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductOutcomeDto"
+              },
+              {
+                "description": "Product outcome (only valid when status is 'finished')"
+              }
+            ]
+          }
+        }
+      },
+      "CreateShoppingItemRequest": {
+        "type": "object",
+        "title": "CreateShoppingItemRequest",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Item name (cannot be empty)"
+          },
+          "product_id": {
+            "type": "string",
+            "description": "Optional associated product ID"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "title": "ErrorResponse",
+        "required": [
+          "name",
+          "message"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "EstimateExpiryDateRequest": {
+        "type": "object",
+        "title": "EstimateExpiryDateRequest",
+        "description": "Request to estimate expiry date based on product attributes.",
+        "required": [
+          "product_name",
+          "status"
+        ],
+        "properties": {
+          "product_name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "status": {
+            "type": "string",
+            "description": "Product status (new, opened, almost_empty, finished)"
+          },
+          "location": {
+            "type": "string",
+            "description": "Storage location (fridge, pantry, freezer)"
+          }
+        }
+      },
+      "ExpiryEstimationResponse": {
+        "type": "object",
+        "title": "ExpiryEstimationResponse",
+        "description": "Expiry date estimation result.",
+        "required": [
+          "confidence"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated expiry date (ISO 8601), or null if unable to estimate"
+          },
+          "confidence": {
+            "description": "Confidence level of the estimation",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceDto"
+              },
+              {
+                "description": "Confidence level of the estimation"
+              }
+            ]
+          }
+        }
+      },
+      "HealthCheckResponse": {
+        "type": "object",
+        "title": "HealthCheckResponse",
+        "description": "Health check response",
+        "required": [
+          "status",
+          "timestamp",
+          "version"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Service status"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Current server timestamp"
+          },
+          "version": {
+            "type": "string",
+            "description": "Service version"
+          }
+        }
+      },
+      "IdentificationConfidenceDto": {
+        "type": "string",
+        "enum": [
+          "high",
+          "low"
+        ]
+      },
+      "IdentificationMethodDto": {
+        "type": "string",
+        "enum": [
+          "barcode",
+          "visual"
+        ]
+      },
+      "IdentifyByBarcodeRequest": {
+        "type": "object",
+        "title": "IdentifyByBarcodeRequest",
+        "description": "Request to identify a product by barcode.",
+        "required": [
+          "barcode"
+        ],
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "description": "Barcode string (e.g., EAN-13)"
+          }
+        }
+      },
+      "IdentifyByImageRequest": {
+        "type": "object",
+        "title": "IdentifyByImageRequest",
+        "description": "Request to identify a product by image.",
+        "required": [
+          "image_base64"
+        ],
+        "properties": {
+          "image_base64": {
+            "type": "string",
+            "description": "Base64-encoded image data"
+          }
+        }
+      },
+      "ProductIdentificationResponse": {
+        "type": "object",
+        "title": "ProductIdentificationResponse",
+        "description": "Product identification result.",
+        "required": [
+          "name",
+          "confidence",
+          "method"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Identified product name"
+          },
+          "confidence": {
+            "description": "Confidence level of the identification",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IdentificationConfidenceDto"
+              },
+              {
+                "description": "Confidence level of the identification"
+              }
+            ]
+          },
+          "method": {
+            "description": "Method used to identify the product",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IdentificationMethodDto"
+              },
+              {
+                "description": "Method used to identify the product"
+              }
+            ]
+          },
+          "suggested_location": {
+            "description": "Suggested storage location",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductLocationDto"
+              },
+              {
+                "description": "Suggested storage location"
+              }
+            ]
+          },
+          "suggested_quantity": {
+            "type": "string",
+            "description": "Suggested quantity"
+          }
+        }
+      },
+      "ProductLocationDto": {
+        "type": "string",
+        "enum": [
+          "fridge",
+          "pantry",
+          "freezer"
+        ]
+      },
+      "ProductOutcomeDto": {
+        "type": "string",
+        "enum": [
+          "used",
+          "thrown_away"
+        ]
+      },
+      "ProductResponse": {
+        "type": "object",
+        "title": "ProductResponse",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Product unique identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "status": {
+            "description": "Product status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatusDto"
+              },
+              {
+                "description": "Product status"
+              }
+            ]
+          },
+          "location": {
+            "description": "Storage location",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductLocationDto"
+              },
+              {
+                "description": "Storage location"
+              }
+            ]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity description"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expiry date"
+          },
+          "estimated_expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated expiry date"
+          },
+          "outcome": {
+            "description": "Product outcome",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductOutcomeDto"
+              },
+              {
+                "description": "Product outcome"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
+        }
+      },
+      "ProductStatusDto": {
+        "type": "string",
+        "enum": [
+          "new",
+          "opened",
+          "almost_empty",
+          "finished"
+        ]
+      },
+      "ReceiptItemResponse": {
+        "type": "object",
+        "title": "ReceiptItemResponse",
+        "description": "A single item extracted from a receipt.",
+        "required": [
+          "name",
+          "confidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "confidence": {
+            "description": "Confidence level of the extraction",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IdentificationConfidenceDto"
+              },
+              {
+                "description": "Confidence level of the extraction"
+              }
+            ]
+          }
+        }
+      },
+      "ReceiptScanResponse": {
+        "type": "object",
+        "title": "ReceiptScanResponse",
+        "description": "Receipt scan result.",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "Extracted product items",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptItemResponse"
+            }
+          }
+        }
+      },
+      "ScanReceiptRequest": {
+        "type": "object",
+        "title": "ScanReceiptRequest",
+        "description": "Request to scan a receipt image.",
+        "required": [
+          "image_base64"
+        ],
+        "properties": {
+          "image_base64": {
+            "type": "string",
+            "description": "Base64-encoded receipt image data"
+          }
+        }
+      },
+      "ShoppingItemResponse": {
+        "type": "object",
+        "title": "ShoppingItemResponse",
+        "required": [
+          "id",
+          "name",
+          "is_bought",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Shopping item unique identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Item name"
+          },
+          "product_id": {
+            "type": "string",
+            "description": "Associated product ID"
+          },
+          "is_bought": {
+            "type": "boolean",
+            "description": "Whether the item has been bought"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
+        }
+      },
+      "SuggestionIngredientResponse": {
+        "type": "object",
+        "title": "SuggestionIngredientResponse",
+        "required": [
+          "product_id",
+          "product_name",
+          "is_urgent"
+        ],
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "description": "Product ID from user's pantry"
+          },
+          "product_name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity description"
+          },
+          "is_urgent": {
+            "type": "boolean",
+            "description": "Whether this ingredient is expiring soon"
+          }
+        }
+      },
+      "SuggestionResponse": {
+        "type": "object",
+        "title": "SuggestionResponse",
+        "required": [
+          "id",
+          "title",
+          "estimated_time",
+          "ingredients",
+          "urgent_ingredients",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Suggestion unique identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Recipe title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description"
+          },
+          "estimated_time": {
+            "description": "Estimated preparation time",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeRangeDto"
+              },
+              {
+                "description": "Estimated preparation time"
+              }
+            ]
+          },
+          "ingredients": {
+            "type": "array",
+            "description": "Ingredients from user's pantry",
+            "items": {
+              "$ref": "#/components/schemas/SuggestionIngredientResponse"
+            }
+          },
+          "urgent_ingredients": {
+            "type": "array",
+            "description": "Product IDs of urgent (expiring) ingredients",
+            "items": {
+              "type": "string"
+            }
+          },
+          "steps": {
+            "type": "array",
+            "description": "Brief preparation steps",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          }
+        }
+      },
+      "TimeRangeDto": {
+        "type": "string",
+        "enum": [
+          "quick",
+          "medium",
+          "long"
+        ]
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "title": "UpdateProductRequest",
+        "required": [
+          "name",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product name (cannot be empty)"
+          },
+          "status": {
+            "description": "Product status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatusDto"
+              },
+              {
+                "description": "Product status"
+              }
+            ]
+          },
+          "location": {
+            "description": "Storage location",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductLocationDto"
+              },
+              {
+                "description": "Storage location"
+              }
+            ]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity description"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Expiry date"
+          },
+          "estimated_expiry_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated expiry date"
+          },
+          "outcome": {
+            "description": "Product outcome (only valid when status is 'finished')",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductOutcomeDto"
+              },
+              {
+                "description": "Product outcome (only valid when status is 'finished')"
+              }
+            ]
+          }
+        }
+      },
+      "UpdateShoppingItemRequest": {
+        "type": "object",
+        "title": "UpdateShoppingItemRequest",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New item name"
+          },
+          "is_bought": {
+            "type": "boolean",
+            "description": "Whether the item has been bought"
+          }
+        }
+      }
+    }
+  }
+}

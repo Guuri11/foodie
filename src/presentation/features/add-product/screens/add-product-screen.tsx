@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
+import { SafeScreen } from '~/shared/components/safe-screen';
 import { Text } from '~/shared/ui/text';
 
 import { AddProductForm } from '../components/add-product-form';
@@ -108,13 +109,15 @@ export function AddProductScreen() {
 
   if (mode === 'product-extras' && identifiedProduct) {
     return (
-      <ProductExtrasStep
-        productName={identifiedProduct.name}
-        suggestedLocation={identifiedProduct.suggestedLocation}
-        suggestedQuantity={identifiedProduct.suggestedQuantity}
-        onConfirm={handleExtrasConfirm}
-        onSkip={handleExtrasSkip}
-      />
+      <SafeScreen>
+        <ProductExtrasStep
+          productName={identifiedProduct.name}
+          suggestedLocation={identifiedProduct.suggestedLocation}
+          suggestedQuantity={identifiedProduct.suggestedQuantity}
+          onConfirm={handleExtrasConfirm}
+          onSkip={handleExtrasSkip}
+        />
+      </SafeScreen>
     );
   }
 
@@ -135,16 +138,16 @@ export function AddProductScreen() {
   if (mode === 'product-confirm') {
     if (identifying) {
       return (
-        <View className="flex-1 items-center justify-center bg-background">
+        <SafeScreen className="items-center justify-center">
           <ActivityIndicator size="large" />
           <Text className="mt-4 text-muted-foreground">{t('add_product.identifying')}</Text>
-        </View>
+        </SafeScreen>
       );
     }
 
     if (productScanError) {
       return (
-        <View className="flex-1 items-center justify-center bg-background px-8">
+        <SafeScreen className="items-center justify-center px-8">
           <Text className="mb-4 text-center text-muted-foreground">
             {t('add_product.product_not_recognized')}
           </Text>
@@ -169,20 +172,22 @@ export function AddProductScreen() {
               </Text>
             </View>
           </View>
-        </View>
+        </SafeScreen>
       );
     }
 
     if (identifiedProduct) {
       return (
-        <ProductConfirm
-          product={identifiedProduct}
-          loading={loading}
-          onConfirm={handleProductConfirm}
-          onEdit={editProductName}
-          onCancel={handleProductCancel}
-          onFallbackToText={handleProductFallbackToText}
-        />
+        <SafeScreen>
+          <ProductConfirm
+            product={identifiedProduct}
+            loading={loading}
+            onConfirm={handleProductConfirm}
+            onEdit={editProductName}
+            onCancel={handleProductCancel}
+            onFallbackToText={handleProductFallbackToText}
+          />
+        </SafeScreen>
       );
     }
   }
@@ -194,16 +199,16 @@ export function AddProductScreen() {
   if (mode === 'review') {
     if (scanning) {
       return (
-        <View className="flex-1 items-center justify-center bg-background">
+        <SafeScreen className="items-center justify-center">
           <ActivityIndicator size="large" />
           <Text className="mt-4 text-muted-foreground">{t('add_product.scanning')}</Text>
-        </View>
+        </SafeScreen>
       );
     }
 
     if (scanError) {
       return (
-        <View className="flex-1 items-center justify-center bg-background px-8">
+        <SafeScreen className="items-center justify-center px-8">
           <Text className="mb-4 text-center text-muted-foreground">
             {t('add_product.scan_error')}
           </Text>
@@ -229,32 +234,36 @@ export function AddProductScreen() {
               </View>
             </View>
           </View>
-        </View>
+        </SafeScreen>
       );
     }
 
     return (
-      <ReceiptReviewList
-        items={scannedItems}
-        loading={loading}
-        onRemove={removeItem}
-        onEdit={editItem}
-        onConfirm={handleReceiptConfirm}
-        onCancel={handleCancelReview}
-      />
+      <SafeScreen>
+        <ReceiptReviewList
+          items={scannedItems}
+          loading={loading}
+          onRemove={removeItem}
+          onEdit={editItem}
+          onConfirm={handleReceiptConfirm}
+          onCancel={handleCancelReview}
+        />
+      </SafeScreen>
     );
   }
 
   return (
-    <AddProductForm
-      input={input}
-      suggestions={suggestions}
-      loading={loading}
-      error={error}
-      onInputChange={setInput}
-      onAdd={addProduct}
-      onClose={() => router.back()}
-      onOpenCamera={() => setMode('product-camera')}
-    />
+    <SafeScreen>
+      <AddProductForm
+        input={input}
+        suggestions={suggestions}
+        loading={loading}
+        error={error}
+        onInputChange={setInput}
+        onAdd={addProduct}
+        onClose={() => router.back()}
+        onOpenCamera={() => setMode('product-camera')}
+      />
+    </SafeScreen>
   );
 }

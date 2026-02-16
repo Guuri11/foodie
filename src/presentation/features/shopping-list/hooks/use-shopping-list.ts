@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useUseCases } from '~/core/providers/use-case-provider';
+
 import { useShoppingListStore } from '~/lib/stores/shopping-list-store';
 
 export function useShoppingList() {

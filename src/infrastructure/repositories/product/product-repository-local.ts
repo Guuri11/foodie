@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { isActive, type Product } from '@domain/product/model';
-import type { ProductRepository } from '@domain/product/repository';
+import { createProduct, isActive, type Product } from '@domain/product/model';
+import type { CreateProductParams, ProductRepository } from '@domain/product/repository';
 
 const STORAGE_KEY = '@foodie:products';
 
@@ -44,6 +44,17 @@ function fromDTO(dto: ProductDTO): Product {
 }
 
 export class ProductRepositoryLocal implements ProductRepository {
+  async create(params: CreateProductParams): Promise<Product> {
+    const product = createProduct({
+      id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      name: params.name,
+      location: params.location,
+      quantity: params.quantity,
+    });
+    await this.save(product);
+    return product;
+  }
+
   async getAll(): Promise<Product[]> {
     const json = await AsyncStorage.getItem(STORAGE_KEY);
     if (!json) return [];

@@ -1,6 +1,6 @@
 import type { Logger } from '@domain/logger';
-import type { ShoppingItem } from '@domain/shopping-item/model';
 import { ShoppingItemError } from '@domain/shopping-item/errors';
+import type { ShoppingItem } from '@domain/shopping-item/model';
 import type { ShoppingItemRepository } from '@domain/shopping-item/repository';
 import type { AddShoppingItemUseCase } from '@domain/shopping-item/use-cases/add-shopping-item';
 

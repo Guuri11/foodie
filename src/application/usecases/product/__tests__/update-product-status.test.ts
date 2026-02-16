@@ -16,6 +16,7 @@ describe('UpdateProductStatusUseCase (H2.1)', () => {
     mockRepository = {
       getAll: jest.fn(),
       getById: jest.fn(),
+      create: jest.fn(),
       save: jest.fn(),
       delete: jest.fn(),
       getActiveProducts: jest.fn(),

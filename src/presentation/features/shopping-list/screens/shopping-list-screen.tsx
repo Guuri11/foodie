@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { Share2 } from 'lucide-react-native';
 
+import { SafeScreen } from '~/shared/components/safe-screen';
 import { Button } from '~/shared/ui/button';
 import { Icon } from '~/shared/ui/icon';
 import { Input } from '~/shared/ui/input';
@@ -35,14 +36,14 @@ export function ShoppingListScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center bg-background">
+      <SafeScreen className="items-center justify-center">
         <Text variant="muted">{t('common.loading')}</Text>
-      </View>
+      </SafeScreen>
     );
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeScreen>
       <View className="flex-row items-center justify-between px-4 pb-2 pt-4">
         <Text variant="h3">{t('shopping_list.title')}</Text>
         {pendingItems.length > 0 && (
@@ -80,6 +81,6 @@ export function ShoppingListScreen() {
           </Button>
         </View>
       )}
-    </View>
+    </SafeScreen>
   );
 }

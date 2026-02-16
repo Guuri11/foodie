@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import { SafeScreen } from '~/shared/components/safe-screen';
+import { Text } from '~/shared/ui/text';
 
 import { PantryList } from '../components/pantry-list';
 import { StatusFilterBar } from '../components/status-filter-bar';
@@ -12,14 +15,14 @@ export function PantryScreen() {
   const emptyMessage = selectedStatus === 'all' ? t('pantry.empty') : t('pantry.empty_filtered');
 
   return (
-    <View className="flex-1 bg-white">
+    <SafeScreen>
       <View className="px-4 pb-2 pt-6">
-        <Text className="text-2xl font-bold text-neutral-800">{t('pantry.title')}</Text>
+        <Text variant="h3">{t('pantry.title')}</Text>
       </View>
       <View className="py-3">
         <StatusFilterBar selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
       </View>
       <PantryList products={products} emptyMessage={emptyMessage} />
-    </View>
+    </SafeScreen>
   );
 }

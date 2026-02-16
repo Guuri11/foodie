@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
 
 import { cn } from '~/core/utils/cn';
+import { SafeScreen } from '~/shared/components/safe-screen';
 
 import { IngredientItem } from '../components/ingredient-item';
 import { TimeBadge } from '../components/time-badge';
@@ -42,16 +43,16 @@ export function SuggestionDetailScreen({ suggestionId }: SuggestionDetailScreenP
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white items-center justify-center">
+      <SafeScreen className="items-center justify-center">
         <ActivityIndicator size="large" color="#d97706" />
         <Text className="text-neutral-600 mt-4">{t('common.loading')}</Text>
-      </View>
+      </SafeScreen>
     );
   }
 
   if (!suggestion) {
     return (
-      <View className="flex-1 bg-white items-center justify-center p-8">
+      <SafeScreen className="items-center justify-center p-8">
         <Text className="text-lg text-neutral-600 text-center">
           {t('suggestion.not_found')}
         </Text>
@@ -61,12 +62,12 @@ export function SuggestionDetailScreen({ suggestionId }: SuggestionDetailScreenP
         >
           <Text className="text-white font-semibold">{t('common.close')}</Text>
         </Pressable>
-      </View>
+      </SafeScreen>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <SafeScreen>
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 py-4 border-b border-neutral-200">
         <View className="flex-1 mr-4">
@@ -151,6 +152,6 @@ export function SuggestionDetailScreen({ suggestionId }: SuggestionDetailScreenP
           </Text>
         </Pressable>
       </View>
-    </View>
+    </SafeScreen>
   );
 }

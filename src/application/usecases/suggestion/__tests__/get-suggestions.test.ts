@@ -57,6 +57,7 @@ describe('GetSuggestionsUseCase', () => {
     mockProductRepository = {
       getAll: jest.fn(),
       getById: jest.fn(),
+      create: jest.fn(),
       save: jest.fn(),
       delete: jest.fn(),
       getActiveProducts: jest.fn(),

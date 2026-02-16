@@ -1,4 +1,9 @@
 {
+  "navigation": {
+    "suggestions": "Sugerencias",
+    "pantry": "Despensa",
+    "shopping": "Compra"
+  },
   "common": {
     "loading": "Cargando...",
     "error": "Algo ha ido mal",

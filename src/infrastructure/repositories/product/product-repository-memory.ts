@@ -1,5 +1,5 @@
-import { isActive, type Product } from '@domain/product/model';
-import type { ProductRepository } from '@domain/product/repository';
+import { createProduct, isActive, type Product } from '@domain/product/model';
+import type { CreateProductParams, ProductRepository } from '@domain/product/repository';
 
 import seedData from './seed-data.json';
 
@@ -43,6 +43,18 @@ export class ProductRepositoryMemory implements ProductRepository {
       const product = buildProduct(entry);
       this.products.set(product.id, product);
     }
+  }
+
+  async create(params: CreateProductParams): Promise<Product> {
+    const id = `mem-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const product = createProduct({
+      id,
+      name: params.name,
+      location: params.location,
+      quantity: params.quantity,
+    });
+    this.products.set(id, product);
+    return product;
   }
 
   async getAll(): Promise<Product[]> {
