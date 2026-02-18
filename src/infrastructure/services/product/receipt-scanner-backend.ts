@@ -18,10 +18,13 @@ interface ReceiptScanApiResponse {
  * The mobile app does not need an OpenAI API key.
  */
 export class ReceiptScannerBackend implements ReceiptScannerService {
-  constructor(private readonly apiBaseUrl: string) {}
+  constructor(
+    private readonly apiBaseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async scan(imageBase64: string): Promise<ReceiptScanResult> {
-    const response = await fetch(`${this.apiBaseUrl}/products/scan-receipt`, {
+    const response = await this.fetch(`${this.apiBaseUrl}/products/scan-receipt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ image_base64: imageBase64 }),

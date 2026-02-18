@@ -18,6 +18,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 
 import { useIsTablet } from '~/core/hooks/use-device';
+import { AuthProvider, useAuth } from '~/core/providers/auth-provider';
 import { UseCaseProvider } from '~/core/providers/use-case-provider';
 
 import { NAV_THEME } from '~/lib/theme';
@@ -34,9 +35,9 @@ export {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const { setColorScheme } = useColorScheme();
+function RootNavigator() {
   const isTablet = useIsTablet();
+  const { isAuthenticated, isLoading } = useAuth();
 
   const [fontsLoaded] = useFonts({
     NunitoSans_400Regular,
@@ -45,13 +46,13 @@ export default function RootLayout() {
     NunitoSans_700Bold,
   });
 
+  const { setColorScheme } = useColorScheme();
+
   useEffect(() => {
-    // Force light mode for NativeWind
     setColorScheme('light');
   }, [setColorScheme]);
 
   useEffect(() => {
-    // Lock orientation based on device type
     if (isTablet) {
       ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     } else {
@@ -60,40 +61,46 @@ export default function RootLayout() {
   }, [isTablet]);
 
   useEffect(() => {
-    if (fontsLoaded) {
+    if (fontsLoaded && !isLoading) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, isLoading]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || isLoading) {
     return null;
   }
 
   return (
+    <ThemeProvider value={NAV_THEME['light']}>
+      <StatusBar style="dark" />
+      <View className="flex-1">
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: 'transparent' },
+          }}
+        >
+          <Stack.Screen name="(auth)" redirect={isAuthenticated} />
+          <Stack.Screen name="(tablet)" redirect={!isTablet || !isAuthenticated} />
+          <Stack.Screen name="(mobile)" redirect={isTablet || !isAuthenticated} />
+          <Stack.Screen name="modal/add-product" options={{ presentation: 'fullScreenModal' }} />
+          <Stack.Screen name="modal/product/[id]" options={{ presentation: 'modal' }} />
+        </Stack>
+      </View>
+      <PortalHost />
+    </ThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
     <GestureHandlerRootView className="flex-1">
       <SafeAreaProvider>
-        <UseCaseProvider>
-          <ThemeProvider value={NAV_THEME['light']}>
-            <StatusBar style="dark" />
-            <View className="flex-1">
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: { backgroundColor: 'transparent' },
-                }}
-              >
-                <Stack.Screen name="(tablet)" redirect={!isTablet} />
-                <Stack.Screen name="(mobile)" redirect={isTablet} />
-                <Stack.Screen
-                  name="modal/add-product"
-                  options={{ presentation: 'fullScreenModal' }}
-                />
-                <Stack.Screen name="modal/product/[id]" options={{ presentation: 'modal' }} />
-              </Stack>
-            </View>
-            <PortalHost />
-          </ThemeProvider>
-        </UseCaseProvider>
+        <AuthProvider>
+          <UseCaseProvider>
+            <RootNavigator />
+          </UseCaseProvider>
+        </AuthProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

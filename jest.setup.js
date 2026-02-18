@@ -35,6 +35,22 @@ global.localStorage = {
   clear: jest.fn(),
 };
 
+// Mock Firebase
+jest.mock('firebase/app', () => ({
+  initializeApp: jest.fn(),
+  getApps: jest.fn(() => []),
+}));
+
+jest.mock('firebase/auth', () => ({
+  initializeAuth: jest.fn(() => ({})),
+  getAuth: jest.fn(() => ({})),
+  getReactNativePersistence: jest.fn(),
+  signInWithEmailAndPassword: jest.fn(),
+  createUserWithEmailAndPassword: jest.fn(),
+  signOut: jest.fn(),
+  onAuthStateChanged: jest.fn(() => jest.fn()),
+}));
+
 // Mock Sentry (only if installed)
 try {
   require.resolve('@sentry/react-native');

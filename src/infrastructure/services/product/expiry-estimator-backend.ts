@@ -16,7 +16,10 @@ interface ExpiryEstimationApiResponse {
  * The mobile app does not need an OpenAI API key.
  */
 export class ExpiryEstimatorBackend implements ExpiryEstimatorService {
-  constructor(private readonly apiBaseUrl: string) {}
+  constructor(
+    private readonly apiBaseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async estimateExpiryDate(
     productName: string,
@@ -24,7 +27,7 @@ export class ExpiryEstimatorBackend implements ExpiryEstimatorService {
     location?: ProductLocation
   ): Promise<ExpiryEstimation> {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/products/estimate-expiry-date`, {
+      const response = await this.fetch(`${this.apiBaseUrl}/products/estimate-expiry-date`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

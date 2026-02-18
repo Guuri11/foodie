@@ -45,10 +45,13 @@ function toApiRequest(product: Product) {
 }
 
 export class ProductRepositoryHttp implements ProductRepository {
-  constructor(private readonly baseUrl: string) {}
+  constructor(
+    private readonly baseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async getAll(): Promise<Product[]> {
-    const response = await fetch(`${this.baseUrl}/products`);
+    const response = await this.fetch(`${this.baseUrl}/products`);
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status}`);
     }
@@ -57,7 +60,7 @@ export class ProductRepositoryHttp implements ProductRepository {
   }
 
   async getById(id: string): Promise<Product | null> {
-    const response = await fetch(`${this.baseUrl}/products/${id}`);
+    const response = await this.fetch(`${this.baseUrl}/products/${id}`);
     if (response.status === 404) {
       return null;
     }
@@ -76,7 +79,7 @@ export class ProductRepositoryHttp implements ProductRepository {
       quantity: params.quantity ?? null,
     };
 
-    const response = await fetch(`${this.baseUrl}/products`, {
+    const response = await this.fetch(`${this.baseUrl}/products`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -93,7 +96,7 @@ export class ProductRepositoryHttp implements ProductRepository {
   async save(product: Product): Promise<void> {
     const body = toApiRequest(product);
 
-    const response = await fetch(`${this.baseUrl}/products/${product.id}`, {
+    const response = await this.fetch(`${this.baseUrl}/products/${product.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -105,7 +108,7 @@ export class ProductRepositoryHttp implements ProductRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/products/${id}`, {
+    const response = await this.fetch(`${this.baseUrl}/products/${id}`, {
       method: 'DELETE',
     });
     if (!response.ok && response.status !== 404) {

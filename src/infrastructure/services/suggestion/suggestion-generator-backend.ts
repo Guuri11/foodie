@@ -34,11 +34,14 @@ interface SuggestionApiResponse {
  * fetches active products from the database directly.
  */
 export class SuggestionGeneratorBackend implements SuggestionGeneratorService {
-  constructor(private readonly apiBaseUrl: string) {}
+  constructor(
+    private readonly apiBaseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async generate(_products: Product[], limit: number): Promise<Suggestion[]> {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/suggestions?limit=${limit}`, {
+      const response = await this.fetch(`${this.apiBaseUrl}/suggestions?limit=${limit}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

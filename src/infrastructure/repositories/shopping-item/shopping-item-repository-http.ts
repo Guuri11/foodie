@@ -26,10 +26,13 @@ function fromApiResponse(dto: ShoppingItemResponseDTO): ShoppingItem {
 }
 
 export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
-  constructor(private readonly baseUrl: string) {}
+  constructor(
+    private readonly baseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async getAll(): Promise<ShoppingItem[]> {
-    const response = await fetch(`${this.baseUrl}/shopping-items`);
+    const response = await this.fetch(`${this.baseUrl}/shopping-items`);
     if (!response.ok) {
       throw new Error(`Failed to fetch shopping items: ${response.status}`);
     }
@@ -38,7 +41,7 @@ export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
   }
 
   async save(item: ShoppingItem): Promise<ShoppingItem> {
-    const response = await fetch(`${this.baseUrl}/shopping-items`, {
+    const response = await this.fetch(`${this.baseUrl}/shopping-items`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -54,7 +57,7 @@ export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
   }
 
   async update(id: string, changes: { name?: string; isBought?: boolean }): Promise<ShoppingItem> {
-    const response = await fetch(`${this.baseUrl}/shopping-items/${id}`, {
+    const response = await this.fetch(`${this.baseUrl}/shopping-items/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -70,7 +73,7 @@ export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/shopping-items/${id}`, {
+    const response = await this.fetch(`${this.baseUrl}/shopping-items/${id}`, {
       method: 'DELETE',
     });
     if (!response.ok && response.status !== 404) {
@@ -79,7 +82,7 @@ export class ShoppingItemRepositoryHttp implements ShoppingItemRepository {
   }
 
   async clearBought(): Promise<number> {
-    const response = await fetch(`${this.baseUrl}/shopping-items/bought`, {
+    const response = await this.fetch(`${this.baseUrl}/shopping-items/bought`, {
       method: 'DELETE',
     });
     if (!response.ok) {

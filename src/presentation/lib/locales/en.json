@@ -115,6 +115,16 @@
     "bought_section": "Bought",
     "share_title": "Shopping list"
   },
+  "auth": {
+    "tagline": "Your kitchen, with memory.",
+    "email_placeholder": "Email",
+    "password_placeholder": "Password",
+    "sign_in": "Sign in",
+    "register": "Create account",
+    "no_account": "Don't have an account? Create one",
+    "has_account": "Already have an account? Sign in",
+    "sign_out": "Sign out"
+  },
   "suggestion": {
     "loading": "Getting ideas...",
     "error": "Couldn't get suggestions",

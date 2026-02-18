@@ -115,6 +115,16 @@
     "bought_section": "Comprados",
     "share_title": "Lista de compra"
   },
+  "auth": {
+    "tagline": "Tu cocina, con memoria.",
+    "email_placeholder": "Email",
+    "password_placeholder": "Contraseña",
+    "sign_in": "Entrar",
+    "register": "Crear cuenta",
+    "no_account": "¿No tienes cuenta? Crea una",
+    "has_account": "¿Ya tienes cuenta? Entra",
+    "sign_out": "Cerrar sesión"
+  },
   "suggestion": {
     "loading": "Buscando ideas...",
     "error": "No pudimos obtener sugerencias",

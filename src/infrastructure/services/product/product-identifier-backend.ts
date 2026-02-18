@@ -19,10 +19,13 @@ interface ProductIdentificationApiResponse {
  * to the Rust backend. The mobile app does not need any API keys.
  */
 export class ProductIdentifierBackend implements ProductIdentifierService {
-  constructor(private readonly apiBaseUrl: string) {}
+  constructor(
+    private readonly apiBaseUrl: string,
+    private readonly fetch: typeof globalThis.fetch = globalThis.fetch
+  ) {}
 
   async identifyByImage(imageBase64: string): Promise<ProductIdentification> {
-    const response = await fetch(`${this.apiBaseUrl}/products/identify/image`, {
+    const response = await this.fetch(`${this.apiBaseUrl}/products/identify/image`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ image_base64: imageBase64 }),
@@ -38,7 +41,7 @@ export class ProductIdentifierBackend implements ProductIdentifierService {
   }
 
   async identifyByBarcode(barcode: string): Promise<ProductIdentification> {
-    const response = await fetch(`${this.apiBaseUrl}/products/identify/barcode`, {
+    const response = await this.fetch(`${this.apiBaseUrl}/products/identify/barcode`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ barcode }),

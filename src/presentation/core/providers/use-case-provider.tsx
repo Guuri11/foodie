@@ -31,6 +31,7 @@ import { GetShoppingItemsUseCaseImpl } from '@application/usecases/shopping-item
 import { ToggleShoppingItemUseCaseImpl } from '@application/usecases/shopping-item/toggle-shopping-item';
 import { GetSuggestionsUseCaseImpl } from '@application/usecases/suggestion/get-suggestions';
 
+import { createAuthenticatedFetch } from '@infrastructure/http/authenticated-fetch';
 import { ConsoleLogger } from '@infrastructure/logger/console-logger';
 import { ProductRepositoryHttp } from '@infrastructure/repositories/product/product-repository-http';
 import { ShoppingItemRepositoryHttp } from '@infrastructure/repositories/shopping-item/shopping-item-repository-http';
@@ -38,6 +39,8 @@ import { ExpiryEstimatorBackend } from '@infrastructure/services/product/expiry-
 import { ProductIdentifierBackend } from '@infrastructure/services/product/product-identifier-backend';
 import { ReceiptScannerBackend } from '@infrastructure/services/product/receipt-scanner-backend';
 import { SuggestionGeneratorBackend } from '@infrastructure/services/suggestion/suggestion-generator-backend';
+
+import { useAuth } from './auth-provider';
 
 export interface UseCases {
   getAllProducts: GetAllProductsUseCase;
@@ -59,17 +62,21 @@ export interface UseCases {
 const UseCaseContext = createContext<UseCases | null>(null);
 
 export function UseCaseProvider({ children }: { children: ReactNode }) {
+  const { authService } = useAuth();
+
   const useCases = useMemo<UseCases>(() => {
     const logger = new ConsoleLogger();
     const apiBaseUrl =
       (Constants.expoConfig?.extra?.apiBaseUrl as string) ?? 'http://localhost:8080';
-    const productRepository = new ProductRepositoryHttp(apiBaseUrl);
-    const shoppingItemRepository = new ShoppingItemRepositoryHttp(apiBaseUrl);
+    const authenticatedFetch = createAuthenticatedFetch(() => authService.getToken());
 
-    const receiptScanner = new ReceiptScannerBackend(apiBaseUrl);
-    const productIdentifier = new ProductIdentifierBackend(apiBaseUrl);
-    const expiryEstimator = new ExpiryEstimatorBackend(apiBaseUrl);
-    const suggestionGenerator = new SuggestionGeneratorBackend(apiBaseUrl);
+    const productRepository = new ProductRepositoryHttp(apiBaseUrl, authenticatedFetch);
+    const shoppingItemRepository = new ShoppingItemRepositoryHttp(apiBaseUrl, authenticatedFetch);
+
+    const receiptScanner = new ReceiptScannerBackend(apiBaseUrl, authenticatedFetch);
+    const productIdentifier = new ProductIdentifierBackend(apiBaseUrl, authenticatedFetch);
+    const expiryEstimator = new ExpiryEstimatorBackend(apiBaseUrl, authenticatedFetch);
+    const suggestionGenerator = new SuggestionGeneratorBackend(apiBaseUrl, authenticatedFetch);
 
     // Create EstimateExpiryUseCase first (needed by other use cases)
     const estimateExpiry = new EstimateExpiryUseCaseImpl(
@@ -98,7 +105,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
       deleteShoppingItem: new DeleteShoppingItemUseCaseImpl(shoppingItemRepository, logger),
       clearBoughtItems: new ClearBoughtItemsUseCaseImpl(shoppingItemRepository, logger),
     };
-  }, []);
+  }, [authService]);
 
   return <UseCaseContext.Provider value={useCases}>{children}</UseCaseContext.Provider>;
 }

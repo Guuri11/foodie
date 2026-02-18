@@ -57,7 +57,7 @@ module.exports = {
       reactCompiler: true,
     },
     extra: {
-      apiBaseUrl: process.env.API_BASE_URL ?? 'http://192.168.68.55:8080',
+      apiBaseUrl: process.env.API_BASE_URL ?? 'http://192.168.68.56:8080',
     },
   },
 };
