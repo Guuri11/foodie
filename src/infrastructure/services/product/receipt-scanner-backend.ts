@@ -8,7 +8,10 @@ interface ReceiptScanApiResponse {
   items: Array<{
     name: string;
     confidence: 'high' | 'low';
+    price?: number;
   }>;
+  store_name?: string;
+  total_amount?: number;
 }
 
 /**
@@ -40,8 +43,13 @@ export class ReceiptScannerBackend implements ReceiptScannerService {
     const items: ReceiptItem[] = data.items.map((item) => ({
       name: item.name,
       confidence: item.confidence,
+      price: item.price,
     }));
 
-    return { items };
+    return {
+      items,
+      storeName: data.store_name,
+      totalAmount: data.total_amount,
+    };
   }
 }

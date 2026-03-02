@@ -16,10 +16,13 @@ jest.mock('react-i18next', () => ({
         'dashboard.suggestions.title': 'What should I eat?',
         'dashboard.header.add_button': 'Add',
         'suggestion.loading': 'Getting ideas...',
+        'suggestion.error': "Couldn't get suggestions",
         'suggestion.no_suggestions': 'Add products to get started',
         'dashboard.empty.tagline': 'Your kitchen, with memory.',
         'dashboard.empty.cta_text': 'Start with what you have.',
         'dashboard.empty.add_products': 'Add products',
+        'add_product.scan_button': 'Scan receipt',
+        'common.retry': 'Try again',
       };
       return translations[key] ?? key;
     },
@@ -80,11 +83,12 @@ describe('MobileSuggestionsScreen', () => {
     // When rendering the mobile suggestions screen
     render(<MobileSuggestionsScreen />);
 
-    // Then empty state is displayed
-    expect(screen.getByText('Add products to get started')).toBeTruthy();
+    // Then the empty state tagline and scan CTA are visible
+    expect(screen.getByText('Your kitchen, with memory.')).toBeTruthy();
+    expect(screen.getByText('Scan receipt')).toBeTruthy();
   });
 
-  it('should_show_add_button', () => {
+  it('should_show_add_button_in_header_when_suggestions_loaded', () => {
     // Given suggestions are loaded
     mockUseSuggestions.mockReturnValue({
       suggestions: [makeSuggestion({ id: '1', title: 'Pasta' })],
@@ -96,7 +100,41 @@ describe('MobileSuggestionsScreen', () => {
     // When rendering the mobile suggestions screen
     render(<MobileSuggestionsScreen />);
 
-    // Then add button is visible
+    // Then add button is visible in the header
     expect(screen.getByText('Add')).toBeTruthy();
+  });
+
+  it('should_show_add_button_in_header_when_loading', () => {
+    // Given the screen is loading
+    mockUseSuggestions.mockReturnValue({
+      suggestions: [],
+      loading: true,
+      error: null,
+      refresh: jest.fn(),
+    });
+
+    // When rendering
+    render(<MobileSuggestionsScreen />);
+
+    // Then the header Add button is still accessible
+    expect(screen.getByText('Add')).toBeTruthy();
+    expect(screen.getByText('Getting ideas...')).toBeTruthy();
+  });
+
+  it('should_show_retry_and_add_button_when_error', () => {
+    // Given loading fails
+    mockUseSuggestions.mockReturnValue({
+      suggestions: [],
+      loading: false,
+      error: new Error('Network error'),
+      refresh: jest.fn(),
+    });
+
+    // When rendering
+    render(<MobileSuggestionsScreen />);
+
+    // Then both the header Add button and a Retry button are visible
+    expect(screen.getByText('Add')).toBeTruthy();
+    expect(screen.getByText('Try again')).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Plus } from 'lucide-react-native';
+import { Plus, RefreshCw, ScanLine } from 'lucide-react-native';
 
 import { SafeScreen } from '~/shared/components/safe-screen';
 import { Button } from '~/shared/ui/button';
@@ -13,32 +13,79 @@ import { useSuggestions } from '../hooks/use-suggestions';
 export function MobileSuggestionsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { suggestions, loading, error } = useSuggestions();
+  const { suggestions, loading, error, refresh } = useSuggestions();
 
   const handleAddPress = () => {
     router.push('/modal/add-product' as never);
   };
 
-  if (loading) {
-    return (
-      <SafeScreen className="items-center justify-center">
-        <ActivityIndicator size="large" color="#c2410c" />
-        <Text variant="muted" className="mt-4">
-          {t('suggestion.loading')}
-        </Text>
-      </SafeScreen>
-    );
-  }
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color="#c2410c" />
+          <Text variant="muted" className="mt-4">
+            {t('suggestion.loading')}
+          </Text>
+        </View>
+      );
+    }
 
-  if (error) {
+    if (error) {
+      return (
+        <View className="flex-1 items-center justify-center gap-4 px-8">
+          <Text variant="muted" className="text-center text-muted-foreground">
+            {t('suggestion.error')}
+          </Text>
+          <Button variant="outline" className="flex-row items-center gap-2" onPress={refresh}>
+            <RefreshCw size={16} className="text-foreground" />
+            <Text>{t('common.retry')}</Text>
+          </Button>
+        </View>
+      );
+    }
+
+    if (suggestions.length === 0) {
+      return (
+        <View className="flex-1 items-center justify-center gap-6 px-8">
+          <View className="items-center gap-2">
+            <Text variant="h2" className="border-b-0 text-center">
+              {t('dashboard.empty.tagline')}
+            </Text>
+            <Text variant="lead" className="text-center text-muted-foreground">
+              {t('dashboard.empty.cta_text')}
+            </Text>
+          </View>
+
+          <View className="w-full gap-3">
+            <Button className="h-14 flex-row items-center gap-2" onPress={handleAddPress}>
+              <ScanLine size={20} color="white" />
+              <Text>{t('add_product.scan_button')}</Text>
+            </Button>
+            <Button
+              variant="outline"
+              className="h-12 flex-row items-center gap-2"
+              onPress={handleAddPress}
+            >
+              <Plus size={18} className="text-foreground" />
+              <Text>{t('dashboard.header.add_button')}</Text>
+            </Button>
+          </View>
+        </View>
+      );
+    }
+
     return (
-      <SafeScreen className="items-center justify-center p-8">
-        <Text variant="muted" className="text-red-600">
-          {t('suggestion.error')}
+      <ScrollView className="flex-1 px-4 pt-2">
+        <Text variant="h4" className="mb-4">
+          {t('dashboard.suggestions.title')}
         </Text>
-      </SafeScreen>
+        {suggestions.map((suggestion) => (
+          <SuggestionCard key={suggestion.id} suggestion={suggestion} />
+        ))}
+      </ScrollView>
     );
-  }
+  };
 
   return (
     <SafeScreen>
@@ -50,25 +97,7 @@ export function MobileSuggestionsScreen() {
         </Button>
       </View>
 
-      {suggestions.length === 0 ? (
-        <View className="flex-1 items-center justify-center px-8">
-          <Text variant="h2" className="border-b-0 text-center">
-            {t('dashboard.empty.tagline')}
-          </Text>
-          <Text variant="lead" className="mt-3 text-center text-muted-foreground">
-            {t('suggestion.no_suggestions')}
-          </Text>
-        </View>
-      ) : (
-        <ScrollView className="flex-1 px-4 pt-2">
-          <Text variant="h4" className="mb-4">
-            {t('dashboard.suggestions.title')}
-          </Text>
-          {suggestions.map((suggestion) => (
-            <SuggestionCard key={suggestion.id} suggestion={suggestion} />
-          ))}
-        </ScrollView>
-      )}
+      {renderContent()}
     </SafeScreen>
   );
 }

@@ -1,6 +1,6 @@
+import { Platform } from 'react-native';
 import { type FirebaseApp, getApps, initializeApp } from 'firebase/app';
 import { type Auth, getAuth, initializeAuth } from 'firebase/auth';
-import { Platform } from 'react-native';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
-import { AlertCircle, Trash2 } from 'lucide-react-native';
+import { AlertCircle, Store, Trash2 } from 'lucide-react-native';
 
 import type { ReceiptItem } from '@domain/product/services/receipt-scanner';
 
@@ -11,8 +11,11 @@ import { Text } from '~/shared/ui/text';
 interface ReceiptReviewListProps {
   items: ReceiptItem[];
   loading: boolean;
+  storeName?: string;
+  onStoreNameChange?: (name: string) => void;
   onRemove: (index: number) => void;
   onEdit: (index: number, name: string) => void;
+  onPriceChange: (index: number, price: number | undefined) => void;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -20,8 +23,11 @@ interface ReceiptReviewListProps {
 export function ReceiptReviewList({
   items,
   loading,
+  storeName,
+  onStoreNameChange,
   onRemove,
   onEdit,
+  onPriceChange,
   onConfirm,
   onCancel,
 }: ReceiptReviewListProps) {
@@ -38,6 +44,19 @@ export function ReceiptReviewList({
       </View>
 
       <ScrollView className="flex-1 px-6" keyboardShouldPersistTaps="handled">
+        {/* Store name field */}
+        <View className="mb-4 flex-row items-center rounded-lg border border-border bg-card px-4 py-3">
+          <Store size={16} className="mr-3 text-muted-foreground" />
+          <TextInput
+            className="flex-1 text-base text-foreground"
+            placeholder={t('add_product.store_name_placeholder')}
+            placeholderTextColor="#9ca3af"
+            value={storeName ?? ''}
+            onChangeText={onStoreNameChange}
+            returnKeyType="done"
+          />
+        </View>
+
         {items.map((item, index) => (
           <View
             key={`${item.name}-${index}`}
@@ -69,6 +88,20 @@ export function ReceiptReviewList({
                 )}
               </Pressable>
             )}
+
+            {/* Price field */}
+            <TextInput
+              className="w-16 text-right text-sm text-muted-foreground"
+              placeholder={t('add_product.price_label')}
+              placeholderTextColor="#9ca3af"
+              keyboardType="decimal-pad"
+              defaultValue={item.price !== undefined ? String(item.price) : ''}
+              onEndEditing={(e) => {
+                const val = parseFloat(e.nativeEvent.text);
+                onPriceChange(index, isNaN(val) ? undefined : val);
+              }}
+              returnKeyType="done"
+            />
 
             <Pressable
               className="ml-3 p-2 active:opacity-60"

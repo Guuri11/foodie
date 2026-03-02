@@ -29,9 +29,12 @@ export function AddProductScreen() {
     scanning,
     scannedItems,
     scanError,
+    storeName,
+    setStoreName,
     captureAndScan,
     removeItem,
     editItem,
+    editPrice,
     confirmItems,
     cancelReview,
   } = useReceiptScanner();
@@ -107,6 +110,8 @@ export function AddProductScreen() {
     setMode('text');
   };
 
+  const handleBackFromExtras = () => setMode('product-confirm');
+
   if (mode === 'product-extras' && identifiedProduct) {
     return (
       <SafeScreen>
@@ -116,6 +121,7 @@ export function AddProductScreen() {
           suggestedQuantity={identifiedProduct.suggestedQuantity}
           onConfirm={handleExtrasConfirm}
           onSkip={handleExtrasSkip}
+          onBack={handleBackFromExtras}
         />
       </SafeScreen>
     );
@@ -141,6 +147,17 @@ export function AddProductScreen() {
         <SafeScreen className="items-center justify-center">
           <ActivityIndicator size="large" />
           <Text className="mt-4 text-muted-foreground">{t('add_product.identifying')}</Text>
+          <View className="mt-6 rounded-lg border border-border bg-secondary px-4 py-3">
+            <Text
+              className="text-center text-sm text-secondary-foreground"
+              onPress={() => {
+                cancelIdentification();
+                setMode('text');
+              }}
+            >
+              {t('add_product.review_cancel')}
+            </Text>
+          </View>
         </SafeScreen>
       );
     }
@@ -202,6 +219,14 @@ export function AddProductScreen() {
         <SafeScreen className="items-center justify-center">
           <ActivityIndicator size="large" />
           <Text className="mt-4 text-muted-foreground">{t('add_product.scanning')}</Text>
+          <View className="mt-6 rounded-lg border border-border bg-secondary px-4 py-3">
+            <Text
+              className="text-center text-sm text-secondary-foreground"
+              onPress={handleCancelReview}
+            >
+              {t('add_product.review_cancel')}
+            </Text>
+          </View>
         </SafeScreen>
       );
     }
@@ -243,8 +268,11 @@ export function AddProductScreen() {
         <ReceiptReviewList
           items={scannedItems}
           loading={loading}
+          storeName={storeName}
+          onStoreNameChange={setStoreName}
           onRemove={removeItem}
           onEdit={editItem}
+          onPriceChange={editPrice}
           onConfirm={handleReceiptConfirm}
           onCancel={handleCancelReview}
         />
@@ -262,7 +290,7 @@ export function AddProductScreen() {
         onInputChange={setInput}
         onAdd={addProduct}
         onClose={() => router.back()}
-        onOpenCamera={() => setMode('product-camera')}
+        onOpenCamera={() => setMode('camera')}
       />
     </SafeScreen>
   );

@@ -16,15 +16,18 @@ describe('useReceiptScanner', () => {
   let mockScanReceiptExecute: jest.Mock;
   let mockAddProductExecute: jest.Mock;
   let mockGetAllProductsExecute: jest.Mock;
+  let mockCreatePurchaseExecute: jest.Mock;
 
   beforeEach(() => {
     mockScanReceiptExecute = jest.fn();
     mockAddProductExecute = jest.fn();
     mockGetAllProductsExecute = jest.fn().mockResolvedValue({ active: [], totalCount: 0 });
+    mockCreatePurchaseExecute = jest.fn().mockResolvedValue(undefined);
 
     mockUseUseCases.mockReturnValue({
       getAllProducts: { execute: mockGetAllProductsExecute },
       addProduct: { execute: mockAddProductExecute },
+      createPurchase: { execute: mockCreatePurchaseExecute },
       updateProduct: { execute: jest.fn() },
       updateProductStatus: { execute: jest.fn() },
       setProductOutcome: { execute: jest.fn() },
@@ -85,7 +88,7 @@ describe('useReceiptScanner', () => {
 
     // When scan completes
     await act(async () => {
-      resolvePromise!({ items: [{ name: 'Leche', confidence: 'high' }] });
+      resolvePromise!({ items: [{ name: 'Leche', confidence: 'high' }], storeName: undefined, totalAmount: undefined });
       await scanPromise;
     });
 

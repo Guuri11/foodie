@@ -1,14 +1,16 @@
 {
   "navigation": {
-    "suggestions": "Sugerencias",
+    "suggestions": "Hoy",
     "pantry": "Despensa",
-    "shopping": "Compra"
+    "shopping": "Compra",
+    "profile": "Perfil"
   },
   "common": {
     "loading": "Cargando...",
     "error": "Algo ha ido mal",
     "add": "Añadir",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "retry": "Intentar de nuevo"
   },
   "dashboard": {
     "header": {
@@ -63,7 +65,9 @@
     "identifying": "Identificando...",
     "extras_subtitle": "¿Quieres completar la info?",
     "extras_confirm": "Añadir",
-    "extras_skip": "Saltar"
+    "extras_skip": "Saltar",
+    "store_name_placeholder": "¿Dónde compraste?",
+    "price_label": "Precio"
   },
   "product_detail": {
     "location_label": "¿Dónde está?",
@@ -124,6 +128,9 @@
     "no_account": "¿No tienes cuenta? Crea una",
     "has_account": "¿Ya tienes cuenta? Entra",
     "sign_out": "Cerrar sesión"
+  },
+  "profile": {
+    "title": "Perfil"
   },
   "suggestion": {
     "loading": "Buscando ideas...",

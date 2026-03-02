@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { KeyboardAvoidingView, Platform, Pressable, TextInput, View } from 'react-native';
 
 import { useAuth } from '~/core/providers/auth-provider';
 import { SafeScreen } from '~/shared/components/safe-screen';

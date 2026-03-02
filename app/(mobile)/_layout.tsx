@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Tabs } from 'expo-router';
-import { ShoppingCart, UtensilsCrossed, Warehouse } from 'lucide-react-native';
+import { Archive, ShoppingCart, User, UtensilsCrossed } from 'lucide-react-native';
 
 export default function MobileLayout() {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ export default function MobileLayout() {
         name="pantry"
         options={{
           title: t('navigation.pantry'),
-          tabBarIcon: ({ color, size }) => <Warehouse size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Archive size={size} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -36,6 +36,13 @@ export default function MobileLayout() {
         options={{
           title: t('navigation.shopping'),
           tabBarIcon: ({ color, size }) => <ShoppingCart size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: t('navigation.profile'),
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
     </Tabs>

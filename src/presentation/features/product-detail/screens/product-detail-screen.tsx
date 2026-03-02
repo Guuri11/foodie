@@ -1,3 +1,5 @@
+import { useRouter } from 'expo-router';
+
 import { SafeScreen } from '~/shared/components/safe-screen';
 
 import { ProductDetailView } from '../components/product-detail-view';
@@ -8,6 +10,7 @@ interface ProductDetailScreenProps {
 }
 
 export function ProductDetailScreen({ productId }: ProductDetailScreenProps) {
+  const router = useRouter();
   const {
     product,
     setLocation,
@@ -26,6 +29,7 @@ export function ProductDetailScreen({ productId }: ProductDetailScreenProps) {
         product={product}
         urgencyInfo={urgencyInfo}
         showOutcomePrompt={showOutcomePrompt}
+        onClose={() => router.back()}
         onLocationChange={setLocation}
         onQuantityChange={setQuantity}
         onStatusChange={setStatus}

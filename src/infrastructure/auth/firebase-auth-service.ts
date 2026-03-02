@@ -1,11 +1,12 @@
-import type { AuthUser } from '@domain/auth/model';
-import type { AuthService } from '@domain/auth/service';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged as firebaseOnAuthStateChanged,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
+
+import type { AuthUser } from '@domain/auth/model';
+import type { AuthService } from '@domain/auth/service';
 
 import { firebaseAuth } from './firebase-config';
 

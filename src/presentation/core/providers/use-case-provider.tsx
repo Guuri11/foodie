@@ -9,6 +9,7 @@ import type { ScanReceiptUseCase } from '@domain/product/use-cases/scan-receipt'
 import type { SetProductOutcomeUseCase } from '@domain/product/use-cases/set-product-outcome';
 import type { UpdateProductUseCase } from '@domain/product/use-cases/update-product';
 import type { UpdateProductStatusUseCase } from '@domain/product/use-cases/update-product-status';
+import type { CreatePurchaseUseCase } from '@domain/purchase/use-cases/create-purchase';
 import type { AddShoppingItemUseCase } from '@domain/shopping-item/use-cases/add-shopping-item';
 import type { ClearBoughtItemsUseCase } from '@domain/shopping-item/use-cases/clear-bought-items';
 import type { DeleteShoppingItemUseCase } from '@domain/shopping-item/use-cases/delete-shopping-item';
@@ -24,6 +25,7 @@ import { ScanReceiptUseCaseImpl } from '@application/usecases/product/scan-recei
 import { SetProductOutcomeUseCaseImpl } from '@application/usecases/product/set-product-outcome';
 import { UpdateProductUseCaseImpl } from '@application/usecases/product/update-product';
 import { UpdateProductStatusUseCaseImpl } from '@application/usecases/product/update-product-status';
+import { CreatePurchaseUseCaseImpl } from '@application/usecases/purchase/create-purchase';
 import { AddShoppingItemUseCaseImpl } from '@application/usecases/shopping-item/add-shopping-item';
 import { ClearBoughtItemsUseCaseImpl } from '@application/usecases/shopping-item/clear-bought-items';
 import { DeleteShoppingItemUseCaseImpl } from '@application/usecases/shopping-item/delete-shopping-item';
@@ -38,6 +40,7 @@ import { ShoppingItemRepositoryHttp } from '@infrastructure/repositories/shoppin
 import { ExpiryEstimatorBackend } from '@infrastructure/services/product/expiry-estimator-backend';
 import { ProductIdentifierBackend } from '@infrastructure/services/product/product-identifier-backend';
 import { ReceiptScannerBackend } from '@infrastructure/services/product/receipt-scanner-backend';
+import { PurchaseBackend } from '@infrastructure/services/purchase/purchase-backend';
 import { SuggestionGeneratorBackend } from '@infrastructure/services/suggestion/suggestion-generator-backend';
 
 import { useAuth } from './auth-provider';
@@ -45,6 +48,7 @@ import { useAuth } from './auth-provider';
 export interface UseCases {
   getAllProducts: GetAllProductsUseCase;
   addProduct: AddProductUseCase;
+  createPurchase: CreatePurchaseUseCase;
   updateProduct: UpdateProductUseCase;
   updateProductStatus: UpdateProductStatusUseCase;
   setProductOutcome: SetProductOutcomeUseCase;
@@ -77,6 +81,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
     const productIdentifier = new ProductIdentifierBackend(apiBaseUrl, authenticatedFetch);
     const expiryEstimator = new ExpiryEstimatorBackend(apiBaseUrl, authenticatedFetch);
     const suggestionGenerator = new SuggestionGeneratorBackend(apiBaseUrl, authenticatedFetch);
+    const purchaseService = new PurchaseBackend(apiBaseUrl, authenticatedFetch);
 
     // Create EstimateExpiryUseCase first (needed by other use cases)
     const estimateExpiry = new EstimateExpiryUseCaseImpl(
@@ -88,6 +93,7 @@ export function UseCaseProvider({ children }: { children: ReactNode }) {
     return {
       getAllProducts: new GetAllProductsUseCaseImpl(productRepository, logger),
       addProduct: new AddProductUseCaseImpl(productRepository, logger),
+      createPurchase: new CreatePurchaseUseCaseImpl(purchaseService, logger),
       updateProduct: new UpdateProductUseCaseImpl(productRepository, logger, estimateExpiry),
       updateProductStatus: new UpdateProductStatusUseCaseImpl(
         productRepository,

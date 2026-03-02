@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+import { ChevronLeft } from 'lucide-react-native';
 
 import type { ProductLocation } from '@domain/product/value-objects';
 
@@ -14,6 +15,7 @@ interface ProductExtrasStepProps {
   suggestedQuantity?: string;
   onConfirm: (location?: ProductLocation, quantity?: string) => void;
   onSkip: () => void;
+  onBack?: () => void;
 }
 
 export function ProductExtrasStep({
@@ -22,6 +24,7 @@ export function ProductExtrasStep({
   suggestedQuantity,
   onConfirm,
   onSkip,
+  onBack,
 }: ProductExtrasStepProps) {
   const { t } = useTranslation();
   const [location, setLocation] = useState<ProductLocation | undefined>(suggestedLocation);
@@ -34,6 +37,11 @@ export function ProductExtrasStep({
 
   return (
     <View className="flex-1 gap-6 bg-background p-6">
+      {onBack && (
+        <Pressable onPress={onBack} className="self-start p-1">
+          <ChevronLeft size={24} className="text-foreground" />
+        </Pressable>
+      )}
       <View className="gap-1">
         <Text className="text-2xl font-bold text-foreground">{productName}</Text>
         <Text className="text-sm text-muted-foreground">{t('add_product.extras_subtitle')}</Text>

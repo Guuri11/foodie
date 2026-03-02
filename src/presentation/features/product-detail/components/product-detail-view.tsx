@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { X } from 'lucide-react-native';
 
 import type { Product } from '@domain/product/model';
 import type { UrgencyInfo } from '@domain/product/urgency-messages';
@@ -16,6 +17,7 @@ interface ProductDetailViewProps {
   product: Product | null;
   urgencyInfo: UrgencyInfo;
   showOutcomePrompt: boolean;
+  onClose: () => void;
   onLocationChange: (location: ProductLocation | undefined) => void;
   onQuantityChange: (quantity: string) => void;
   onStatusChange: (status: ProductStatus) => void;
@@ -28,6 +30,7 @@ export function ProductDetailView({
   product,
   urgencyInfo,
   showOutcomePrompt,
+  onClose,
   onLocationChange,
   onQuantityChange,
   onStatusChange,
@@ -49,7 +52,16 @@ export function ProductDetailView({
 
   return (
     <View className="flex-1 gap-6 p-6">
-      <Text className="text-2xl font-bold text-neutral-800">{product.name}</Text>
+      <View className="flex-row items-center justify-between">
+        <Text className="text-2xl font-bold text-neutral-800">{product.name}</Text>
+        <Pressable
+          onPress={onClose}
+          accessibilityLabel={t('common.close')}
+          className="p-1"
+        >
+          <X size={22} color="#737373" />
+        </Pressable>
+      </View>
       <StatusStepper currentStatus={product.status} onStatusChange={onStatusChange} />
       {urgencyInfo.level !== 'ok' && (
         <UrgencyBadge urgencyInfo={urgencyInfo} isEstimated={isEstimated} />

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
-import { Camera } from 'lucide-react-native';
+import { Camera, X } from 'lucide-react-native';
 
 import { Button } from '~/shared/ui/button';
 import { Input } from '~/shared/ui/input';
@@ -63,8 +63,8 @@ export function AddProductForm({
     <View className="flex-1 bg-background">
       <View className="flex-row items-center justify-between px-6 pb-4 pt-6">
         <Text variant="h3">{t('add_product.title')}</Text>
-        <Button variant="ghost" onPress={onClose}>
-          <Text>{t('add_product.close')}</Text>
+        <Button variant="ghost" size="icon" onPress={onClose} accessibilityLabel={t('common.close')}>
+          <X size={22} className="text-foreground" />
         </Button>
       </View>
 
